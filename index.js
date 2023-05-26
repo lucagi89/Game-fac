@@ -20,22 +20,28 @@ function getNewMonster() {
 document.getElementById("attack").addEventListener("click", attack)
 
 function attack(){
-    const warriorAttack = monster.defense - warrior.attack;
-    const monsterAttack = warrior.defense - monster.attack;
+    const warriorAttack =  warrior.attack - monster.defense;
+    const monsterAttack = monster.attack - warrior.defense;
     warrior.health -= monsterAttack;
-    console.log(warrior.health);
     warrior.getLifeBar(warrior.health);
     monster.health -= warriorAttack;
-    console.log(monster.health);
     monster.getLifeBar(monster.health);
     if(warrior.health <= 0){
         endGame();
     }
     if(monster.health <= 0){
-        alert("You win");
+        youWin();
         monster = getNewMonster();
     }
+    render();
    
+}
+
+function youWin(){
+    document.getElementById("monster").innerHTML = `
+        <img src='${monster.image}' alt = '${monster.name}'>
+        <div class='win'><h2>You Win! ⚔️</h2></div>
+        `;
 }
 
 
@@ -43,7 +49,7 @@ function attack(){
 class Fighter{
     constructor(obj){
         Object.assign(this, obj)
-        this.health = this.getLifeBar();
+        this.health = 100;
     }
 
     getFighterHtml(){
@@ -54,11 +60,14 @@ class Fighter{
             <p>Defense: ${defense}</p>
             <img class = "fighter-img" src=${image} alt="${name}" />
             <div>Health: ${health}</div>
+            ${this.getLifeBar(health)}
             `;
         }
     
     getLifeBar(health){
-
+        if(health < 0){
+            health = 0;
+        }
         return `
             <div class="life-bar">
                 <div class="life-bar-inner ${health <= 25? 'dying' :''}" style="width: ${health}%"></div>

@@ -12,7 +12,7 @@ const fighters = {
         name: "Goblin",
         image: './images/goblin.png',
         health: 100,
-        attack: 10,
+        attack: 13,
         defense: 5,
     },
     witch:{

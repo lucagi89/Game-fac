@@ -8,13 +8,14 @@
     font-family: 'MedievalSharp', cursive;
     color: rgb(255, 220, 42);
 }
-
-h1{
-    font-size: 4rem;
+header{
+    font-size: 2.5rem;
     font-weight: 700;
     color: rgb(255, 220, 42);
-    text-shadow: 0 0 20px rgb(255, 220, 42);
+    text-shadow: 0 0 5px rgb(255, 220, 42);
+    background-color: rgba(72, 7, 7, 0.7);
 }
+
 
 h2 {
     font-size: 2rem;
@@ -44,10 +45,17 @@ body{
     /* transition: all 0.3s ease-in-out; */
 }
 
-.life-bar-inner{
+.life-bar{
     margin: 10px auto;
-    background-color: green;
     width: 80%;
+    height: 12px;
+    border-radius: 5px;
+    background-color: black;
+    box-shadow: 0 0 3px rgb(255, 220, 42);
+}
+
+.life-bar-inner{
+    background-color: green;
     height: 12px;
     border-radius: 5px;
 }
