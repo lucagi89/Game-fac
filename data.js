@@ -36,5 +36,7 @@ const fighters = {
         health: 100,
         attack: 30,
         defense: 20,
-    },
+    }
 }
+
+export default fighters;
