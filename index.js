@@ -39,7 +39,7 @@ function attack(){
 
 function youWin(){
     document.getElementById("monster").innerHTML = `
-        <img src='${monster.image}' alt = '${monster.name}'>
+        <img src='${monster.image}' class = 'win-image' alt = '${monster.name}'>
         <div class='win'><h2>You Win! ⚔️</h2></div>
         `;
 }
