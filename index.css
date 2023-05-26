@@ -4,6 +4,23 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-align: center;
+    font-family: 'MedievalSharp', cursive;
+    color: rgb(255, 220, 42);
+}
+
+h1{
+    font-size: 4rem;
+    font-weight: 700;
+    color: rgb(255, 220, 42);
+    text-shadow: 0 0 20px rgb(255, 220, 42);
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(255, 220, 42);
+    text-shadow: 0 0 20px rgb(255, 220, 42);
 }
 
 body{
@@ -11,12 +28,45 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
+.fighter{
+    margin: 3rem 0;
+}
+
 .fighter-img{
-    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 250px;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 20%;
     border: 2px solid rgb(255, 220, 42);
     box-shadow: 0 0 20px rgb(255, 220, 42);
+    /* transition: all 0.3s ease-in-out; */
+}
+
+button{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(255, 220, 42);
+    color: black;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
     transition: all 0.3s ease-in-out;
+}
+@media (min-width: 768px){
+   #fight-container{
+       display: flex;
+       justify-content: space-around;
+       align-items: center;
+       height: 80vh;
+   }
+
+   .fighter-img{
+       width: 80%;
+       height: 100%;
+   }
 }
