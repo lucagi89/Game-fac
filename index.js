@@ -17,13 +17,33 @@ function getNewMonster() {
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
-console.log(getMonstersArray(fighters));
+document.getElementById("attack").addEventListener("click", attack)
+
+function attack(){
+    const warriorAttack = monster.defense - warrior.attack;
+    const monsterAttack = warrior.defense - monster.attack;
+    warrior.health -= monsterAttack;
+    console.log(warrior.health);
+    warrior.getLifeBar(warrior.health);
+    monster.health -= warriorAttack;
+    console.log(monster.health);
+    monster.getLifeBar(monster.health);
+    if(warrior.health <= 0){
+        endGame();
+    }
+    if(monster.health <= 0){
+        alert("You win");
+        monster = getNewMonster();
+    }
+   
+}
+
 
 
 class Fighter{
     constructor(obj){
         Object.assign(this, obj)
-
+        this.health = this.getLifeBar();
     }
 
     getFighterHtml(){
@@ -36,7 +56,18 @@ class Fighter{
             <div>Health: ${health}</div>
             `;
         }
+    
+    getLifeBar(health){
+
+        return `
+            <div class="life-bar">
+                <div class="life-bar-inner ${health <= 25? 'dying' :''}" style="width: ${health}%"></div>
+            </div>
+        `;
+    }
 }
+
+
 
 const warrior = new Fighter(fighters.warrior);
 const monster = getNewMonster();
