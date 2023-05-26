@@ -1,5 +1,25 @@
 import fighters from "./data.js";
 
+
+function getMonstersArray(fighters){
+    const monstersArray = [];
+    for(let monster in fighters){
+        if(monster !== "warrior"){
+            monstersArray.push(monster);
+        }
+    }
+    return monstersArray;
+}
+
+function getNewMonster() {
+    const monstersArray = getMonstersArray(fighters);
+    const nextMonsterObj = fighters[monstersArray.shift()]
+    return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
+}
+
+console.log(getMonstersArray(fighters));
+
+
 class Fighter{
     constructor(obj){
         Object.assign(this, obj)
@@ -19,7 +39,7 @@ class Fighter{
 }
 
 const warrior = new Fighter(fighters.warrior);
-const monster = new Fighter(fighters.goblin);
+const monster = getNewMonster();
 
 
 function render(){
