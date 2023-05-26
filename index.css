@@ -1,0 +1,22 @@
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: url('./images/background.avif');
+    font-family: 'Poppins', sans-serif;
+}
+
+.fighter-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 220, 42);
+    box-shadow: 0 0 20px rgb(255, 220, 42);
+    transition: all 0.3s ease-in-out;
+}
