@@ -2,8 +2,11 @@ import fighters from "./data.js";
 import Fighter from "./fighter.js";
 import questions from "./questions.js";
 
-
+const question = document.getElementById("question");
+const questionForm = document.getElementById("question-form");
+const formContainer = document.getElementById("form-container");
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
+
 
 function getNewMonster() {
     let nextMonsterObj = fighters[monstersArray.shift()]
@@ -33,23 +36,56 @@ function attack(){
     render();
 }
 
-function getFormHtml(){
-        let formHtml = ``;
-        const question = questions[Math.floor(Math.random() * questions.length)].question;
-        console.log(question);
+let formCounter = 0;
+let wrongAnswerCounter = 0;
+
+function getQuestionsArray(){
+    const questionsArray = new Array(3).fill('').map(() => 
+        questions[Math.floor(Math.random() * questions.length)]);
+    return answersArray;
 }
-getFormHtml();
+
+
+
+
+function getQuestionText(){
+
+        let questionText = getQuestionsArray()[formCounter].question;
+        document.getElementById("question").textContent = questionText;
+}
+
+questionForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formAnswer = new FormData(questionForm)
+    const answer = formAnswer.get("yes") ? "yes" : "no";
+    if(answer === getQuestionsArray[formCounter].answer){
+        if(formCounter === 3){
+            getSuperPower();
+            getSuperHealth();
+        }else{
+            formCounter++;
+            questionForm.reset();
+            getQuestionText();
+        }
+    }else{
+        wrongAnswerCounter++;
+        if(wrongAnswerCounter > 1){
+            console.log('sorry but you have to continue with your own strength')
+
+        }else{
+            formCounter++;
+            questionForm.reset();
+            getQuestionText();
+        }
+    }
+
+});
 
 function getSuperHealth(){}
 function getSuperPower(){}
 
 
-function youWin(){
-    document.getElementById("monster").innerHTML = `
-        <img src='${monster.image}' class = 'win-image' alt = '${monster.name}'>
-        <div class='win'><h2>You Win! ⚔️</h2></div>
-        `;
-}
+
 
 
 
