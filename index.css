@@ -32,8 +32,8 @@ body{
 #warrior,
 #monster{
     margin: 0 auto;
-    max-width: 500px;
-    max-height: 600px;
+    width: 500px;
+    height: 600px;
 }
 
 .win{
@@ -98,6 +98,17 @@ button{
 
 .hidden{
     display: none;
+}
+
+.form-container{
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 70%;
+    height: 80vh;
+    max-width: 500px;
+    max-height: 600px;
 }
 @media (min-width: 768px){
    #fight-container{

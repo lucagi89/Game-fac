@@ -24,7 +24,7 @@ function attack(){
     if(warrior.health === 0){
         console.log("You lose");
     }else if(warrior.health <= 30){
-        getSuperHealth();
+        getStrength();
     }else if(monster.health === 0){
         if(monstersArray){
         monster = getNewMonster();
@@ -39,33 +39,59 @@ function attack(){
 let formCounter = 0;
 let wrongAnswerCounter = 0;
 
+function getStrength(){
+    formContainer.classList.remove("hidden");
+    formContainer.innerHTML = `
+    <h2>Answer three questions to get more life and strength...</h2>`
+    setTimeout(function(){
+        formContainer.innerHTML = `
+        <h2>...but if you fail to answer correctly at least 2 of them</h2>`
+    }, 1500)
+    setTimeout(function(){
+        formContainer.innerHTML = `
+        <h2>...You'll have to continue as it is...</h2>`
+    }, 1500)
+    setTimeout(function(){
+        formContainer.innerHTML = getFormHtml();
+    }, 1500)
+}
+
 function getQuestionsArray(){
     const questionsArray = new Array(3).fill('').map(() => 
         questions[Math.floor(Math.random() * questions.length)]);
-    return answersArray;
+    return questionsArray;
 }
 
 
 
 
-function getQuestionText(){
+function getFormHtml(){
+        const questionText = getQuestionsArray()[formCounter].question;
 
-        let questionText = getQuestionsArray()[formCounter].question;
-        document.getElementById("question").textContent = questionText;
+        const formHtml =`
+            <form id="question-form" class= "question-form">
+                <h2 id="question">${questionText}</h2>
+                <label for="yes">Yes</label>
+                <input type="checkbox" id="yes" name="yes" >
+                <label for="no">No</label>
+                <input type="checkbox" id="no" name="no" >
+                <button type="submit">Submit</button>
+            </form>`
+        
+        return formHtml;
 }
 
-questionForm.addEventListener("submit", (e) => {
+formContainer.addEventListener("submit", (e) => {
     e.preventDefault();
     const formAnswer = new FormData(questionForm)
     const answer = formAnswer.get("yes") ? "yes" : "no";
-    if(answer === getQuestionsArray[formCounter].answer){
+    if(answer === getQuestionsArray()[formCounter].answer){
         if(formCounter === 3){
             getSuperPower();
             getSuperHealth();
         }else{
             formCounter++;
-            questionForm.reset();
-            getQuestionText();
+            getFormHtml();
         }
     }else{
         wrongAnswerCounter++;
@@ -74,8 +100,7 @@ questionForm.addEventListener("submit", (e) => {
 
         }else{
             formCounter++;
-            questionForm.reset();
-            getQuestionText();
+            getFormHtml();
         }
     }
 
