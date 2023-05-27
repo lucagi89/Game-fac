@@ -1,5 +1,6 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
+import questions from "./questions.js";
 
 
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
@@ -19,8 +20,9 @@ function attack(){
     
     if(warrior.health === 0){
         console.log("You lose");
-    }
-    if(monster.health === 0){
+    }else if(warrior.health <= 30){
+        getSuperHealth();
+    }else if(monster.health === 0){
         if(monstersArray){
         monster = getNewMonster();
         render();
@@ -30,6 +32,17 @@ function attack(){
     }
     render();
 }
+
+function getFormHtml(){
+        let formHtml = ``;
+        const question = questions[Math.floor(Math.random() * questions.length)].question;
+        console.log(question);
+}
+getFormHtml();
+
+function getSuperHealth(){}
+function getSuperPower(){}
+
 
 function youWin(){
     document.getElementById("monster").innerHTML = `

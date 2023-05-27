@@ -25,6 +25,19 @@ class Fighter{
         }
         return this.health;
     }
+
+    superPower(){
+        this.attack += 15;
+        return this.attack;
+    }
+
+    superHealth(){
+        this.health += 50;
+        if (this.health >= 100){
+            this.health = 100;
+        }
+        return this.health;
+    };
     
     getLifeBar(health){
         if(health < 0){
