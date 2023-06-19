@@ -26,6 +26,7 @@ h2 {
 
 body{
     background: url('./images/background.avif');
+    background-size: cover;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -124,6 +125,11 @@ button{
     justify-content: center;
     align-items: center;
 }
+
+.hidden{
+    display: none;
+}
+
 @media (min-width: 768px){
    #fight-container{
        display: flex;

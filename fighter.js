@@ -2,8 +2,8 @@
 
 class Fighter{
     constructor(obj){
-        Object.assign(this, obj)
-        this.health = 100;
+        Object.assign(this, obj);
+
     }
 
     getFighterHtml(){
