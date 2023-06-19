@@ -1,7 +1,6 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
 import questions from "./questions.js";
-import {show, hide} from "./utils.js";
 
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
@@ -162,6 +161,13 @@ let monster = getNewMonster();
 function render(){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
+}
+
+function show(element){
+  element.classList.remove("hidden");
+}
+function hide(element){
+  element.classList.add("hidden");
 }
 
 render();
