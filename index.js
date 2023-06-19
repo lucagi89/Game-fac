@@ -6,8 +6,10 @@ const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
 const explaination = document.getElementById("explaination");
 const formContainer = document.getElementById("form-container");
-const attackBtn = document.getElementById('attack-btn');
+const fightBtn = document.getElementById('fight-btn');
 let isGetStrengthDisabled = false;
+let hasFailedQuestions = false;
+let hasBeenExplained = false;
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
 // a function to get a new monster from the array
@@ -16,18 +18,17 @@ function getNewMonster() {
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
-attackBtn.addEventListener("click", attack)
+fightBtn.addEventListener("click", fight)
 
-function attack(){
+function fight(){
     const warriorAttack =  warrior.attack - monster.defense;
     const monsterAttack = monster.attack - warrior.defense;
     warrior.getLifeBar(warrior.damage(monsterAttack));
     monster.getLifeBar(monster.damage(warriorAttack));
  
     if(warrior.health === 0){
-        console.log("You lose");
-    }else if(warrior.health <= 30){
-        attackBtn.classList.add('hidden');
+        alert("You lose");
+    }else if(warrior.health <= 30 && hasFailedQuestions === false){ 
         getStrength();
     }else if(monster.health === 0){
         if(monstersArray.length > 0){
@@ -47,6 +48,8 @@ let wrongAnswerCounter = 0;
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
   if (!isGetStrengthDisabled) {
+    if(!hasBeenExplained){
+    fightBtn.classList.add('hidden');
     formContainer.classList.remove("hidden");
     explaination.innerHTML = `
     <h2>Answer three questions to get more life and strength...</h2>`
@@ -57,13 +60,21 @@ function getStrength(){
     setTimeout(function(){
         explaination.innerHTML = `
         <h2>...You'll have to continue as it is...</h2>`
+        hasBeenExplained = true;
     }, 6000)
     setTimeout(function(){
       explaination.innerHTML =''
       questionContainer.innerHTML = questionsArray[formCounter].question;
       show(questionForm)
     }, 9000)
-  } 
+  } else{
+    setTimeout(function(){
+      explaination.innerHTML =''
+      questionContainer.innerHTML = questionsArray[formCounter].question;
+      show(questionForm)
+    }, 1000)
+  }
+}
 }
 
 
@@ -72,16 +83,13 @@ questionForm.addEventListener("submit", handleFormSubmission);
 
 function handleFormSubmission(event) {
     event.preventDefault();
-    
     const answer = document.querySelector('input[id="answer"]:checked').name;
     const rightAnswer = questionsArray[formCounter].correctAnswer;
-    console.log(answer, rightAnswer);
     questionForm.reset();
     if (answer === rightAnswer) {
-      console.log('right');
       if (formCounter === 2) {
         hide(formContainer);
-        show(attackBtn);
+        show(fightBtn);
         warrior.superPower();
         warrior.superHealth();
         formCounter = 0;
@@ -93,12 +101,12 @@ function handleFormSubmission(event) {
         questionContainer.innerHTML = questionsArray[formCounter].question;
       }
     } else {
-      console.log('wrong');
       wrongAnswerCounter++;
       if (wrongAnswerCounter > 1) {
         hide(formContainer);
-        show(attackBtn);
+        show(fightBtn);
         alert("Sorry, but you have to continue with your own strength");
+        hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
       } else {
@@ -114,44 +122,6 @@ function getQuestionsArray(){
         questions[Math.floor(Math.random() * questions.length)]);
     return questionsArray;
 }
-
-// function getQuestion(){
-//   return getQuestionsArray()[formCounter].question;
-// }
-
-
-
-// function getFormHtml(){
-//         const questionText = getQuestionsArray()[formCounter].question;
-
-//         const formHtml =`
-//             <form id="question-form" class="question-form" >
-//                 <h2 id="question">${questionText}</h2>
-//                 <label for="yes">Yes</label>
-//                 <input type="checkbox" id="answer" name="yes" >
-//                 <label for="no">No</label>
-//                 <input type="checkbox" id="answer" name="no" >
-//                 <button type="submit">Submit</button>
-//             </form>`
-        
-//         return formHtml;
-// }
-
-
-// function getSuperHealth(){
-   
-// }
-// function getSuperPower(){
-//   alert("super power");
-// }
-
-
-
-
-
-
-
-
 
 
 const warrior = new Fighter(fighters.warrior);
