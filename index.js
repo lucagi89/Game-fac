@@ -48,31 +48,37 @@ let wrongAnswerCounter = 0;
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
   if (!isGetStrengthDisabled) {
-    if(!hasBeenExplained){
+    questionContainer.innerHTML = "";
     fightBtn.classList.add('hidden');
     formContainer.classList.remove("hidden");
+    if(!hasBeenExplained){
+    
     explaination.innerHTML = `
     <h2>Answer three questions to get more life and strength...</h2>`
     setTimeout(function(){
       explaination.innerHTML = `
         <h2>...but if you fail to answer correctly at least 2 of them</h2>`
-    }, 3000)
+    }, 1000)
     setTimeout(function(){
         explaination.innerHTML = `
         <h2>...You'll have to continue as it is...</h2>`
         hasBeenExplained = true;
-    }, 6000)
+    }, 2000)
     setTimeout(function(){
       explaination.innerHTML =''
       questionContainer.innerHTML = questionsArray[formCounter].question;
       show(questionForm)
-    }, 9000)
+    }, 3000)
   } else{
+      questionContainer.innerHTML = "";
+      explaination.innerHTML = `
+        <h2>Ok...the fight is getting tougher and you deserve an opportunity to augment your strength even more... </h2>`
+    
     setTimeout(function(){
       explaination.innerHTML =''
       questionContainer.innerHTML = questionsArray[formCounter].question;
       show(questionForm)
-    }, 1000)
+    }, 2000)
   }
 }
 }
@@ -89,6 +95,7 @@ function handleFormSubmission(event) {
     if (answer === rightAnswer) {
       if (formCounter === 2) {
         hide(formContainer);
+        hide(questionForm)
         show(fightBtn);
         warrior.superPower();
         warrior.superHealth();
