@@ -2,6 +2,7 @@ import fighters from "./data.js";
 import Fighter from "./fighter.js";
 import questions from "./questions.js";
 
+const music = new Audio("./music/background.mp3");
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
 const explaination = document.getElementById("explaination");
@@ -11,6 +12,8 @@ let isGetStrengthDisabled = false;
 let hasFailedQuestions = false;
 let hasBeenExplained = false;
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
+
+music.play();
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -89,7 +92,7 @@ questionForm.addEventListener("submit", handleFormSubmission);
 
 function handleFormSubmission(event) {
     event.preventDefault();
-    const answer = document.querySelector('input[id="answer"]:checked').name;
+    const answer = document.querySelector('input:checked').name;
     const rightAnswer = questionsArray[formCounter].correctAnswer;
     questionForm.reset();
     if (answer === rightAnswer) {
