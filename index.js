@@ -13,7 +13,14 @@ let hasFailedQuestions = false;
 let hasBeenExplained = false;
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
-music.play();
+
+document.addEventListener("click", (e) => {
+    if (e.target.id === "music-btn") {
+      music.play();
+    } else if (e.target.id === "stop-btn") {
+      music.pause();
+    }
+});
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -92,7 +99,7 @@ questionForm.addEventListener("submit", handleFormSubmission);
 
 function handleFormSubmission(event) {
     event.preventDefault();
-    const answer = document.querySelector('input:checked').name;
+    const answer = document.querySelector('input[name="answer"]').id;
     const rightAnswer = questionsArray[formCounter].correctAnswer;
     questionForm.reset();
     if (answer === rightAnswer) {

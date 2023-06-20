@@ -30,6 +30,22 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
+.music-btn-container{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    border: solid black;
+}
+.music-button{
+    padding: 0.5rem;
+    border-radius: 5px;
+    background:none;
+    color: black;
+    
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
 #warrior,
 #monster{
     margin: 0 auto;
@@ -142,6 +158,16 @@ button{
 
 .hidden{
     display: none;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    height: 10vh;
+    background-color: rgba(0, 0, 0, 0.5);
+
 }
 
 @media (min-width: 768px){

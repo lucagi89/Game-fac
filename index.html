@@ -15,8 +15,12 @@
     <h1>Death Fight</h1>
 </header>
 <body>
-    <audio id="background-music" src="./music/background.mp3"></audio>
+   
     <main id = 'fight-container'>
+        <div class="music-btn-container">
+            <button id="music-btn" class="music-button">▶️</button>
+            <button id="stop-btn" class="music-button">⏸️</button>
+        </div>
         <div id="warrior" class="fighter"></div>
         <div id="monster" class="fighter"></div>
         <div id="form-container" class="form-container hidden">
@@ -36,6 +40,9 @@
     <section>
         <button id="fight-btn">Fight</button>
     </section>
+    <footer>
+        <p>Created by @Luca 2023</p>
+    </footer>
     <script type="module" src="./index.js"></script>
 </body>
 </html>
