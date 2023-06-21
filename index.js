@@ -1,31 +1,20 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
 import questions from "./questions.js";
+import {show, hide, handleMusic} from "./functions.js";
 
-const music = new Audio("./music/background.mp3");
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
 const explaination = document.getElementById("explaination");
 const formContainer = document.getElementById("form-container");
 const fightBtn = document.getElementById('fight-btn');
+
 let isGetStrengthDisabled = false;
 let hasFailedQuestions = false;
 let hasBeenExplained = false;
-let isMusicClicked = false;
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
-
-document.addEventListener("click", (e) => {
-    if (e.target.id === "music-btn" && !isMusicClicked) {
-      isMusicClicked = true;
-      document.getElementById("music-btn").textContent = '🔊';
-      music.play();
-    } else if (e.target.id === "music-btn" && isMusicClicked) {
-      isMusicClicked = false;
-      document.getElementById("music-btn").textContent = '🔇';
-      music.pause();
-    }
-});
+document.addEventListener("click", handleMusic);
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -153,13 +142,6 @@ let monster = getNewMonster();
 function render(){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
-}
-
-function show(element){
-  element.classList.remove("hidden");
-}
-function hide(element){
-  element.classList.add("hidden");
 }
 
 render();
