@@ -11,13 +11,18 @@ const fightBtn = document.getElementById('fight-btn');
 let isGetStrengthDisabled = false;
 let hasFailedQuestions = false;
 let hasBeenExplained = false;
+let isMusicClicked = false;
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
 
 document.addEventListener("click", (e) => {
-    if (e.target.id === "music-btn") {
+    if (e.target.id === "music-btn" && !isMusicClicked) {
+      isMusicClicked = true;
+      document.getElementById("music-btn").textContent = '⏸';
       music.play();
-    } else if (e.target.id === "stop-btn") {
+    } else if (e.target.id === "music-btn" && isMusicClicked) {
+      isMusicClicked = false;
+      document.getElementById("music-btn").textContent = '▶️';
       music.pause();
     }
 });
