@@ -18,11 +18,11 @@ let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 document.addEventListener("click", (e) => {
     if (e.target.id === "music-btn" && !isMusicClicked) {
       isMusicClicked = true;
-      document.getElementById("music-btn").textContent = '⏸';
+      document.getElementById("music-btn").textContent = '🔊';
       music.play();
     } else if (e.target.id === "music-btn" && isMusicClicked) {
       isMusicClicked = false;
-      document.getElementById("music-btn").textContent = '▶️';
+      document.getElementById("music-btn").textContent = '🔇';
       music.pause();
     }
 });

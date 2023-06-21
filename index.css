@@ -31,14 +31,18 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
-.music-btn-container{
+/* .music-btn-container{
     position: fixed;
     bottom: 0;
     right: 0;
     border: solid black;
-}
+} */
 .music-button{
-    padding: 0.1rem;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 1em;
+    padding: 0.5em;
     border-radius: 5px;
     background:none;
     color: black;
@@ -100,7 +104,7 @@ body{
     background-color: red;
 }
 
-button{
+.submit-btn, .fight-btn {
     margin-top: 1rem;
     margin-bottom: 1rem;
     padding: 1rem 2rem;
