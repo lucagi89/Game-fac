@@ -10,16 +10,20 @@ const fightBtn = document.getElementById('fight-btn');
 
 
 
-let {isGetStrengthDisabled, hasFailedQuestions, hasBeenExplained} = false;
+let isGetStrengthDisabled = false;
+let hasFailedQuestions = false;
+let hasBeenExplained = false;
 
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
 const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
-document.addEventListener("click", handleMusic);
+document.getElementById('music-btn').addEventListener("click", handleMusic);
+document.querySelector('h1').addEventListener("click", stopGame);
 fightBtn.addEventListener("click", fight);
 questionForm.addEventListener("submit", handleFormSubmission);
+document.getElementById('start-game-btn').addEventListener('click', startGame);
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -27,11 +31,22 @@ function getNewMonster() {
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
+function startGame(){
+    hide(document.getElementById('start-game'));
+    startMonsterAttack();
+}
+
+function stopGame(){
+  show(document.getElementById('start-game'));
+  stopMonsterAttack();
+}
+
 
 
 function monsterAttack(){
     const monsterAttack = monster.attack - warrior.defense;
     warrior.getLifeBar(warrior.damage(monsterAttack));
+    gameCheck();
 }
 
 let interval;
@@ -44,7 +59,6 @@ function stopMonsterAttack(){
     clearInterval(interval);
 }
 
-startMonsterAttack();
 
 
 
@@ -55,13 +69,14 @@ startMonsterAttack();
 function fight(){
     const warriorAttack =  warrior.attack - monster.defense;
     monster.getLifeBar(monster.damage(warriorAttack));
+    gameCheck();
 }
 
 function gameCheck(){
   if(warrior.health === 0){
     alert("You lose");
-}else if(warrior.health <= 30 && hasFailedQuestions === false){ 
-    console.log('getStrength');
+}else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
+    getStrength();
 }else if(monster.health === 0){
     if(monstersArray.length > 0){
     monster = getNewMonster();
@@ -73,7 +88,7 @@ function gameCheck(){
 render();
 }
 
-gameCheck();
+
 
 let questionsArray = getQuestionsArray();
 let formCounter = 0;
@@ -117,7 +132,7 @@ function getStrength(){
   }
 }
 }
-
+// store in a constant the letter that is hovered
 
 
 
@@ -133,6 +148,7 @@ function handleFormSubmission(event) {
         show(fightBtn);
         warrior.superPower();
         warrior.superHealth();
+        setTimeout(startMonsterAttack, 1000);
         formCounter = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();
@@ -150,6 +166,7 @@ function handleFormSubmission(event) {
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
+        setTimeout(startMonsterAttack, 1000);
       } else {
         formCounter++;
         questionContainer.innerHTML = questionsArray[formCounter].question;
@@ -163,3 +180,4 @@ function render(){
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
 }
 render();
+
