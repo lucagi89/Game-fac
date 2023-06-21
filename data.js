@@ -14,6 +14,7 @@ const fighters = {
         health: 100,
         attack: 15,
         defense: 5,
+        speed: 1000,
     },
     vampire:{
         name: "Vampire",
@@ -21,6 +22,7 @@ const fighters = {
         health: 100,
         attack: 16,
         defense: 8,
+        speed: 800,
     },
     devil:{
         name: "Devil",
@@ -28,6 +30,7 @@ const fighters = {
         health: 100,
         attack: 20,
         defense: 12,
+        speed: 700,
     },
     dragon:{
         name: "Dragon",
@@ -35,6 +38,7 @@ const fighters = {
         health: 100,
         attack: 25,
         defense: 15,
+        speed: 600,
     },
     death:{
         name: "Death",
@@ -42,6 +46,7 @@ const fighters = {
         health: 100,
         attack: 30,
         defense: 20,
+        speed: 500,
     }
 }
 

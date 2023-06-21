@@ -1,7 +1,6 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
-import questions from "./questions.js";
-import {show, hide, handleMusic} from "./functions.js";
+import {show, hide, handleMusic, getQuestionsArray} from "./functions.js";
 
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
@@ -9,12 +8,18 @@ const explaination = document.getElementById("explaination");
 const formContainer = document.getElementById("form-container");
 const fightBtn = document.getElementById('fight-btn');
 
-let isGetStrengthDisabled = false;
-let hasFailedQuestions = false;
-let hasBeenExplained = false;
+
+
+let {isGetStrengthDisabled, hasFailedQuestions, hasBeenExplained} = false;
+
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
+const warrior = new Fighter(fighters.warrior);
+let monster = getNewMonster();
+
 document.addEventListener("click", handleMusic);
+fightBtn.addEventListener("click", fight);
+questionForm.addEventListener("submit", handleFormSubmission);
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -22,28 +27,53 @@ function getNewMonster() {
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
-fightBtn.addEventListener("click", fight)
+
+
+function monsterAttack(){
+    const monsterAttack = monster.attack - warrior.defense;
+    warrior.getLifeBar(warrior.damage(monsterAttack));
+}
+
+let interval;
+
+function startMonsterAttack(){
+    interval = setInterval(monsterAttack, monster.speed);
+}
+
+function stopMonsterAttack(){
+    clearInterval(interval);
+}
+
+startMonsterAttack();
+
+
+
+
+
+
 
 function fight(){
     const warriorAttack =  warrior.attack - monster.defense;
-    const monsterAttack = monster.attack - warrior.defense;
-    warrior.getLifeBar(warrior.damage(monsterAttack));
     monster.getLifeBar(monster.damage(warriorAttack));
- 
-    if(warrior.health === 0){
-        alert("You lose");
-    }else if(warrior.health <= 30 && hasFailedQuestions === false){ 
-        getStrength();
-    }else if(monster.health === 0){
-        if(monstersArray.length > 0){
-        monster = getNewMonster();
-        render();
-        }else{
-           alert("you win");
-        }
-    }
-    render();
 }
+
+function gameCheck(){
+  if(warrior.health === 0){
+    alert("You lose");
+}else if(warrior.health <= 30 && hasFailedQuestions === false){ 
+    console.log('getStrength');
+}else if(monster.health === 0){
+    if(monstersArray.length > 0){
+    monster = getNewMonster();
+    render();
+    }else{
+       alert("you win");
+    }
+}
+render();
+}
+
+gameCheck();
 
 let questionsArray = getQuestionsArray();
 let formCounter = 0;
@@ -51,6 +81,7 @@ let wrongAnswerCounter = 0;
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
+  stopMonsterAttack();
   if (!isGetStrengthDisabled) {
     questionContainer.innerHTML = "";
     fightBtn.classList.add('hidden');
@@ -88,7 +119,6 @@ function getStrength(){
 }
 
 
-questionForm.addEventListener("submit", handleFormSubmission);
 
 
 function handleFormSubmission(event) {
@@ -127,21 +157,9 @@ function handleFormSubmission(event) {
     }
   }
 
-// a function to get three random questions from the questions array
-function getQuestionsArray(){
-    const questionsArray = new Array(3).fill('').map(() => 
-        questions[Math.floor(Math.random() * questions.length)]);
-    return questionsArray;
-}
-
-
-const warrior = new Fighter(fighters.warrior);
-let monster = getNewMonster();
-
 
 function render(){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
 }
-
 render();
