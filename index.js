@@ -20,8 +20,6 @@ const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
 document.getElementById('music-btn').addEventListener("click", handleMusic);
-document.getElementById('game-btn').addEventListener("click", console.log('handleGame'));
-document.getElementById('info-btn').addEventListener("click", handleInfo);
 document.querySelector('h1').addEventListener("click", stopGame);
 fightBtn.addEventListener("click", fight);
 questionForm.addEventListener("submit", handleFormSubmission);
@@ -35,6 +33,7 @@ function getNewMonster() {
 
 function startGame(){
     hide(document.getElementById('start-game'));
+    show(document.querySelector('.btns-container'));
     startMonsterAttack();
 }
 
@@ -43,34 +42,54 @@ function stopGame(){
   stopMonsterAttack();
 }
 
+document.getElementById('info-btn').addEventListener("click", handleInfo);
+
 let isInfoShown = false;
 
 function handleInfo(){
-    if (!isInfoShown) {
+    const infoContainer = document.getElementById('info-container');
+    if (isInfoShown === false) {
+      isInfoShown = true;
+      infoContainer.innerHTML =  `
+       
+      <h2>How the game works...</h2>
+      <div>
+        <p>Your character is the super warrior</p>
+        <p>Press the fight button to attack the monster</p>
+        <p>They're gonna attack you back, but if you're faster you'll kill them</p>
+        <p>Every time you kill a monster you'll get a new one until you kill them all and win the game</p>
+        <p>If during the fight your health bar goes less than 30% you'll have the 
+        opportunity to answer three general knowledge questions to get more life and strength</p>
+      </div>
+  
+  `;
+      show(infoContainer);
       stopGame();
-      document.querySelector('body').innerHTML += `
-        <div id="info-container" class='info-container'>
-            <h2>How the game works...</h2>
-            <div>
-              <p>Your character is the super warrior</p>
-              <p>Press the fight button to attack the monster</p>
-              <p>They're gonna attack you back, but if you're faster you'll kill them</p>
-              <p>Every time you kill a monster you'll get a new one until you kill them all and win the game</p>
-              <p>If during the fight your health bar goes less than 30% you'll have the 
-              opportunity to answer three general knowledge questions to get more life and strength</p>
-            </div>
-        </div>
-        `;
-        isInfoShown = true;
-      }else {
-        hide(document.querySelector('#info-container'));
+    }else{
         isInfoShown = false;
+        hide(infoContainer);
+        if(document.getElementById('start-game').classList.contains('hidden')){
         startGame();
-      
         }
 
 }
+console.log(isInfoShown);
+}
 
+document.getElementById('game-btn').addEventListener("click", handleGame);
+let isGameGoing = true;
+function handleGame(){
+  const gameBtn = document.getElementById('game-btn');
+    if(isGameGoing){
+        isGameGoing = false;
+        stopGame();
+        gameBtn.textContent = '▶️';
+    }else{
+        isGameGoing = true;
+        startGame();
+        gameBtn.textContent = '⏸';
+    }
+}
 
 
 // a function to render the warrior and monster's health bars
@@ -81,15 +100,16 @@ function monsterAttack(){
     gameCheck();
 }
 
+// interval section for the monster attacks
 let interval;
-// a function to start the monster attack
+
 function startMonsterAttack(){
     interval = setInterval(monsterAttack, monster.speed);
 }
-// a function to stop the monster attack
 function stopMonsterAttack(){
     clearInterval(interval);
 }
+//------------------------------------------
 
 // a function to get a random number between the min and max attack values for the carachters
 function getAttackValue(obj){
