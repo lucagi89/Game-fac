@@ -42,36 +42,42 @@ function stopGame(){
 }
 
 
-
+// a function to render the warrior and monster's health bars
 function monsterAttack(){
-    const monsterAttack = monster.attack - warrior.defense;
+    
+    const monsterAttack = getAttackValue(monster) - warrior.defense;
     warrior.getLifeBar(warrior.damage(monsterAttack));
     gameCheck();
 }
 
 let interval;
-
+// a function to start the monster attack
 function startMonsterAttack(){
     interval = setInterval(monsterAttack, monster.speed);
 }
-
+// a function to stop the monster attack
 function stopMonsterAttack(){
     clearInterval(interval);
 }
 
+// a function to get a random number between the min and max attack values for the carachters
+function getAttackValue(obj){
+    return Math.floor(Math.random() * (obj.attack[1] - obj.attack[0] + 1)) + obj.attack[0];
+}
 
 
 
 
-
-
-
+// a function to execute the warrior attack
 function fight(){
-    const warriorAttack =  warrior.attack - monster.defense;
+    
+    const warriorAttack =  getAttackValue(warrior) - monster.defense;
     monster.getLifeBar(monster.damage(warriorAttack));
     gameCheck();
 }
 
+
+// a function to check the game status and execute the appropriate actions
 function gameCheck(){
   if(warrior.health === 0){
     alert("You lose");

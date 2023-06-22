@@ -3,7 +3,6 @@
 class Fighter{
     constructor(obj){
         Object.assign(this, obj);
-
     }
 
     getFighterHtml(){
