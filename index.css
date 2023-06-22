@@ -31,25 +31,26 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
-/* .music-btn-container{
+.btns-container{
     position: fixed;
     bottom: 0;
-    right: 0;
+    left: 0;
     border: solid black;
-} */
+    display: flex;
+    justify-content: space-between;
+}
 
 
 
-.music-button{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin: 1em;
-    padding: 0.5em;
+.music-button,
+.game-button,
+.info-button{
+    margin: 0.5rem;
+    padding: 0.3rem;
     border-radius: 5px;
     background:none;
     color: black;
-    
+    font-size: large;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
@@ -144,7 +145,8 @@ body{
     display: none;
 }
 
-.form-container{
+.form-container,
+.info-container{
     background: url(./images/form-background.avif);
     border-radius: 20px;
     position: fixed;
@@ -156,7 +158,23 @@ body{
     height: 80vh;
     max-width: 400px;
     max-height: 600px;
-    box-shadow: 0 0 20px rgb(0, 0, 0);
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.info-container div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 70%;
+    width: 80%;
 }
 
 .form-container h2{

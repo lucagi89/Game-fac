@@ -2,6 +2,7 @@
 import questions from "./questions.js";
 
 
+
 const music = new Audio("./music/background.mp3");
 let isMusicClicked = false;
 
@@ -31,6 +32,8 @@ function handleMusic(e){
         music.pause();
       }
 };
+
+
 
 
 export {show, hide, handleMusic, getQuestionsArray};

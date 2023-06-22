@@ -26,7 +26,7 @@ class Fighter{
     }
 
     superPower(){
-        this.attack += 15;
+        this.attack[1] += 15;
         return this.attack;
     }
 
