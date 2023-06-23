@@ -97,7 +97,7 @@ console.log(isInfoShown);
 //--------------------------------------------------------------
 
 
-// functionality for the game button----------------------------
+// functionality for the stop/play game button----------------------------
 document.getElementById('game-btn').addEventListener("click", handleGame);
 let isGameGoing = true;
 function handleGame(){
@@ -156,10 +156,11 @@ function getMonsterSpeedValue(obj){
 
 // a function to execute the warrior attack
 function fight(){
-    
-    const warriorAttack =  getAttackValue(warrior) - monster.defense;
-    monster.getLifeBar(monster.damage(warriorAttack));
+    const warriorAttackValue = getAttackValue(warrior);
+    if (warriorAttackValue > monster.defense) {
+    monster.getLifeBar(monster.damage(warriorAttackValue - monster.defense));
     gameCheck();
+}
 }
 
 
