@@ -2,10 +2,6 @@
 import questions from "./questions.js";
 
 
-
-const music = new Audio("./music/background.mp3");
-let isMusicClicked = false;
-
 function show(element){
     element.classList.remove("hidden");
   }
@@ -21,17 +17,6 @@ function getQuestionsArray(){
 }
 
 
-function handleMusic(e){
-    if (e.target.id === "music-btn" && !isMusicClicked) {
-        isMusicClicked = true;
-        document.getElementById("music-btn").textContent = '🔊';
-        music.play();
-      } else if (e.target.id === "music-btn" && isMusicClicked) {
-        isMusicClicked = false;
-        document.getElementById("music-btn").textContent = '🔇';
-        music.pause();
-      }
-};
 
 
 const elements = document.querySelectorAll('.modify-color');
@@ -53,4 +38,4 @@ function modifyBlackAndWhite(){
 
 
 
-export {show, hide, handleMusic, getQuestionsArray, modifyBlackAndWhite};
+export {show, hide, getQuestionsArray, modifyBlackAndWhite};

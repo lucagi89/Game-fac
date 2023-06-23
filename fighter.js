@@ -9,7 +9,7 @@ class Fighter{
         const {name, image, health, attack, defense} = this;
         return `
             <h2>${name}</h2>
-            <p>Attack: ${attack}</p>
+            <p>Attack: ${attack[0]} - ${attack[1]}</p>
             <p>Defense: ${defense}</p>
             <img class = "fighter-img" src=${image} alt="${name}" />
             <div>Health: ${health}</div>

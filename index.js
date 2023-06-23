@@ -1,6 +1,6 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
-import {show, hide, handleMusic, getQuestionsArray, modifyBlackAndWhite} from "./functions.js";
+import {show, hide, getQuestionsArray, modifyBlackAndWhite} from "./functions.js";
 
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
@@ -19,7 +19,6 @@ let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
-document.getElementById('music-btn').addEventListener("click", handleMusic);
 fightBtn.addEventListener("click", fight);
 questionForm.addEventListener("submit", handleFormSubmission);
 document.getElementById('start-game-btn').addEventListener('click', startGame);
@@ -42,6 +41,23 @@ function stopGame(){
   stopMonsterAttack();
 }
 
+
+// functionality for the music button----------------------------
+document.getElementById('music-btn').addEventListener("click", handleMusic);
+const music = new Audio("./music/background.mp3");
+let isMusicClicked = false;
+function handleMusic(e){
+  if (e.target.id === "music-btn" && !isMusicClicked) {
+      isMusicClicked = true;
+      document.getElementById("music-btn").textContent = '🔊';
+      music.play();
+    } else if (e.target.id === "music-btn" && isMusicClicked) {
+      isMusicClicked = false;
+      document.getElementById("music-btn").textContent = '🔇';
+      music.pause();
+    }
+};
+//--------------------------------------------------------------
 
 // functionality for the info button----------------------------
 document.getElementById('info-btn').addEventListener("click", handleInfo);
@@ -102,20 +118,29 @@ function handleGame(){
 
 // a function to render the warrior and monster's health bars
 function monsterAttack(){
-    
     const monsterAttack = getAttackValue(monster) - warrior.defense;
     warrior.getLifeBar(warrior.damage(monsterAttack));
     gameCheck();
 }
 
-// interval section for the monster attacks--------------------
-let interval;
+//interval section for the monster attacks--------------------
+let timeFrame;
+let frameCount = 0;
+let speed = getMonsterSpeedValue(monster);
 
 function startMonsterAttack(){
-    interval = setInterval(monsterAttack, monster.speed);
+    timeFrame = window.requestAnimationFrame(startMonsterAttack);
+   if(frameCount < speed/10){
+     frameCount++;
+   }else{
+     monsterAttack();
+     frameCount = 0;
+     speed = getMonsterSpeedValue(monster);
+   }
 }
+
 function stopMonsterAttack(){
-    clearInterval(interval);
+  cancelAnimationFrame(timeFrame);
 }
 //------------------------------------------------------------
 
@@ -123,6 +148,11 @@ function stopMonsterAttack(){
 function getAttackValue(obj){
     return Math.floor(Math.random() * (obj.attack[1] - obj.attack[0] + 1)) + obj.attack[0];
 }
+
+function getMonsterSpeedValue(obj){
+  return Math.floor(Math.random() * (obj.speed[1] - obj.speed[0] + 1)) + obj.speed[0];
+}
+
 
 // a function to execute the warrior attack
 function fight(){
