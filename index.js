@@ -271,6 +271,10 @@ function handleFormSubmission(event) {
   }
 
 
+document.addEventListener('keydown', function(event){
+  console.log(event);
+})
+
 function render(){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
