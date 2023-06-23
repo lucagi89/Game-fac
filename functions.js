@@ -34,6 +34,23 @@ function handleMusic(e){
 };
 
 
+const elements = document.querySelectorAll('.modify-color');
+let isColored = true;
+function modifyBlackAndWhite(){
+  if(isColored){
+  elements.forEach(element => {
+    element.classList.add('gray');
+});
+  isColored = false;
+} else{
+  elements.forEach(element => {
+    element.classList.remove('gray');
+});
+  isColored = true;
+}
+}
 
 
-export {show, hide, handleMusic, getQuestionsArray};
+
+
+export {show, hide, handleMusic, getQuestionsArray, modifyBlackAndWhite};

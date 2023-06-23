@@ -32,6 +32,10 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
+.gray{
+    filter: grayscale(100%);
+}
+
 .btns-container{
     position: fixed;
     bottom: 0;
@@ -218,6 +222,10 @@ footer{
 
 .highlight {
     color: red;
+  }
+
+  .colored{
+    filter: none;
   }
 
 @media (min-width: 768px){

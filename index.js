@@ -1,6 +1,6 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
-import {show, hide, handleMusic, getQuestionsArray} from "./functions.js";
+import {show, hide, handleMusic, getQuestionsArray, modifyBlackAndWhite} from "./functions.js";
 
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
@@ -20,7 +20,6 @@ const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
 document.getElementById('music-btn').addEventListener("click", handleMusic);
-document.querySelector('h1').addEventListener("click", stopGame);
 fightBtn.addEventListener("click", fight);
 questionForm.addEventListener("submit", handleFormSubmission);
 document.getElementById('start-game-btn').addEventListener('click', startGame);
@@ -34,14 +33,17 @@ function getNewMonster() {
 function startGame(){
     hide(document.getElementById('start-game'));
     show(document.querySelector('.btns-container'));
+    show(fightBtn);
     startMonsterAttack();
 }
 
 function stopGame(){
-  // show(document.getElementById('start-game'));
+  hide(fightBtn);
   stopMonsterAttack();
 }
 
+
+// functionality for the info button----------------------------
 document.getElementById('info-btn').addEventListener("click", handleInfo);
 
 let isInfoShown = false;
@@ -76,6 +78,10 @@ function handleInfo(){
 console.log(isInfoShown);
 }
 
+//--------------------------------------------------------------
+
+
+// functionality for the game button----------------------------
 document.getElementById('game-btn').addEventListener("click", handleGame);
 let isGameGoing = true;
 function handleGame(){
@@ -89,8 +95,10 @@ function handleGame(){
         startGame();
         gameBtn.textContent = '⏸';
     }
+    modifyBlackAndWhite();
 }
 
+//--------------------------------------------------------------
 
 // a function to render the warrior and monster's health bars
 function monsterAttack(){
@@ -100,7 +108,7 @@ function monsterAttack(){
     gameCheck();
 }
 
-// interval section for the monster attacks
+// interval section for the monster attacks--------------------
 let interval;
 
 function startMonsterAttack(){
@@ -109,15 +117,12 @@ function startMonsterAttack(){
 function stopMonsterAttack(){
     clearInterval(interval);
 }
-//------------------------------------------
+//------------------------------------------------------------
 
-// a function to get a random number between the min and max attack values for the carachters
+//to get a random number between the min and max attack values for the carachters
 function getAttackValue(obj){
     return Math.floor(Math.random() * (obj.attack[1] - obj.attack[0] + 1)) + obj.attack[0];
 }
-
-
-
 
 // a function to execute the warrior attack
 function fight(){
@@ -154,6 +159,7 @@ let wrongAnswerCounter = 0;
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
   stopMonsterAttack();
+  modifyBlackAndWhite();
   if (!isGetStrengthDisabled) {
     questionContainer.innerHTML = "";
     fightBtn.classList.add('hidden');
@@ -203,6 +209,7 @@ function handleFormSubmission(event) {
         hide(formContainer);
         hide(questionForm)
         show(fightBtn);
+        modifyBlackAndWhite();
         warrior.superPower();
         warrior.superHealth();
         setTimeout(startMonsterAttack, 1000);
@@ -220,6 +227,7 @@ function handleFormSubmission(event) {
         hide(formContainer);
         show(fightBtn);
         alert("Sorry, but you have to continue with your own strength");
+        modifyBlackAndWhite();
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
