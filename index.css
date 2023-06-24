@@ -4,9 +4,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    text-align: center;
-    font-family: 'MedievalSharp', cursive;
-    color: rgb(255, 220, 42);
 }
 header{
     font-size: 2.5rem;
@@ -29,8 +26,32 @@ h2 {
 body{
     background: url('./images/background.avif');
     background-size: cover;
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    text-align: center;
+    font-family: 'MedievalSharp', cursive;
+    color: rgb(255, 220, 42);
 }
+
+.mode-option-container{
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin: 0 auto;
+}
+
+#one-player:hover,
+#two-players:hover{
+    text-shadow: 0 0 20px rgb(255, 220, 42);
+    cursor: pointer;
+}
+
+.selected{
+    color: rgb(255, 0, 0);
+
+    text-shadow: 0 0 20px rgb(255, 220, 42);
+}
+
+
 
 .gray{
     filter: grayscale(100%);
@@ -67,7 +88,8 @@ body{
     height: 600px;
 }
 
-.start-game{
+.start-game,
+.character-choice{
     position: FIXED;
     top: 50%;
     left: 50%;
@@ -226,6 +248,14 @@ footer{
 
   .colored{
     filter: none;
+  }
+
+
+.character-choice img{
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    
   }
 
 @media (min-width: 768px){

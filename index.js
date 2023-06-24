@@ -2,12 +2,25 @@ import fighters from "./data.js";
 import Fighter from "./fighter.js";
 import {show, hide, getQuestionsArray, modifyBlackAndWhite} from "./functions.js";
 
+const modeOptionContainer = document.getElementById("mode-option-container");
 const questionContainer = document.getElementById("question");
 const questionForm = document.getElementById("form");
 const explaination = document.getElementById("explaination");
 const formContainer = document.getElementById("form-container");
 const fightBtn = document.getElementById('fight-btn');
 
+
+let modeChosen = '';
+
+modeOptionContainer.addEventListener("click", function(e){
+    document.querySelectorAll('.selected').forEach(selection => {
+        selection.classList.remove('selected');
+    });
+    
+    document.getElementById(e.target.id).classList.add('selected');
+    
+    modeChosen = e.target.id;
+});
 
 let isGameGoing = false;
 
@@ -39,13 +52,15 @@ function enableBarKey(){
 function startGame(){
     hide(document.getElementById('start-game'));
     show(document.querySelector('.btns-container'));
-    show(fightBtn);
     isGameGoing = true;
-    show(fightBtn);
-    enableBarKey();
-    startMonsterAttack();
-    render();
-  console.log('game started');
+    if (modeChosen === 'one-player') {
+      show(fightBtn);
+      enableBarKey();
+      startMonsterAttack();
+      render();
+    } else {
+      chooseYourCharacter();
+}
 }
 
 function stopGame(){
@@ -305,3 +320,26 @@ function render(){
 }
 // render();
 
+
+
+// 2 player game section-------------------------------------------------------------
+
+
+function getCharacter(){
+
+}
+
+
+
+function chooseYourCharacter(){
+  let monsterChoiceObj = fighters[monstersArray.shift()]
+  const characterChoice =
+  `<div id = "character-choice-container" class="character-choice">
+  <h2>Choose your character</h2>
+  <h3>Player 1</h3>
+  <h4>${monsterChoiceObj.name}</h4>
+  <img src="${monsterChoiceObj.image}" alt="${monsterChoiceObj.name}" class="character-choice-img">
+  </div>
+  `
+  document.querySelector('body').innerHTML += characterChoice;
+}
