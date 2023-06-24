@@ -9,10 +9,6 @@ const formContainer = document.getElementById("form-container");
 const fightBtn = document.getElementById('fight-btn');
 
 
-
-let isGetStrengthDisabled = false;
-let hasFailedQuestions = false;
-let hasBeenExplained = false;
 let isGameGoing = false;
 
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
@@ -182,13 +178,18 @@ function fight(){
 
 
 // a function to check the game status and execute the appropriate actions
+
+let helps = 0;
+
 function gameCheck(){
   if(warrior.health === 0){
     isGameGoing = false;
     alert("You lose");
 }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
+    if (helps < 3){
     isGameGoing = false;
     getStrength();
+    }
 }else if(monster.health === 0){
     if(monstersArray.length > 0){
     monster = getNewMonster();
@@ -203,10 +204,6 @@ render();
 
 
 
-let questionsArray = getQuestionsArray();
-let formCounter = 0;
-let wrongAnswerCounter = 0;
-
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
   stopMonsterAttack();
@@ -216,7 +213,6 @@ function getStrength(){
     fightBtn.classList.add('hidden');
     formContainer.classList.remove("hidden");
     if(!hasBeenExplained){
-    
     explaination.innerHTML = `
     <h2>Answer three questions to get more life and strength...</h2>`
     setTimeout(function(){
@@ -230,7 +226,7 @@ function getStrength(){
     }, 2000)
     setTimeout(function(){
       explaination.innerHTML =''
-      questionContainer.innerHTML = questionsArray[formCounter].question;
+      questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       show(questionForm)
     }, 3000)
   } else{
@@ -240,23 +236,32 @@ function getStrength(){
     
     setTimeout(function(){
       explaination.innerHTML =''
-      questionContainer.innerHTML = questionsArray[formCounter].question;
+      questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       show(questionForm)
     }, 2000)
   }
 }
+
 }
-// store in a constant the letter that is hovered
+
+// data to handle the form and helps received during the game
+
+let questionsArray = getQuestionsArray();
+let questionsAskedNum = 0;
+let wrongAnswerCounter = 0;
 
 
+let isGetStrengthDisabled = false;
+let hasFailedQuestions = false;
+let hasBeenExplained = false;
 
 function handleFormSubmission(event) {
     event.preventDefault();
     const answer = document.querySelector('input[name="answer"]').id;
-    const rightAnswer = questionsArray[formCounter].correctAnswer;
+    const rightAnswer = questionsArray[questionsAskedNum].correctAnswer;
     questionForm.reset();
     if (answer === rightAnswer) {
-      if (formCounter === 2) {
+      if (questionsAskedNum === 2) {
         hide(formContainer);
         hide(questionForm)
         show(fightBtn);
@@ -265,13 +270,14 @@ function handleFormSubmission(event) {
         warrior.superPower();
         warrior.superHealth();
         setTimeout(startMonsterAttack, 1000);
-        formCounter = 0;
+        questionsAskedNum = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();
+        helps++;
         render();
       } else {
-        formCounter++;
-        questionContainer.innerHTML = questionsArray[formCounter].question;
+        questionsAskedNum++;
+        questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       }
     } else {
       wrongAnswerCounter++;
@@ -286,8 +292,8 @@ function handleFormSubmission(event) {
         isGameGoing = true;
         setTimeout(startMonsterAttack, 1000);
       } else {
-        formCounter++;
-        questionContainer.innerHTML = questionsArray[formCounter].question;
+        questionsAskedNum++;
+        questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       }
     }
   }
