@@ -13,6 +13,7 @@ const fightBtn = document.getElementById('fight-btn');
 let isGetStrengthDisabled = false;
 let hasFailedQuestions = false;
 let hasBeenExplained = false;
+let isGameGoing = false;
 
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
@@ -29,16 +30,32 @@ function getNewMonster() {
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
+function enableBarKey(){
+  if(isGameGoing){
+  document.addEventListener('keydown', (e) => {
+    if(e.key === ' '){
+      fight();
+    }
+  })
+}
+}
+
 function startGame(){
     hide(document.getElementById('start-game'));
     show(document.querySelector('.btns-container'));
     show(fightBtn);
+    isGameGoing = true;
+    show(fightBtn);
+    enableBarKey();
     startMonsterAttack();
+    render();
+  console.log('game started');
 }
 
 function stopGame(){
   hide(fightBtn);
   stopMonsterAttack();
+  isGameGoing = false;
 }
 
 
@@ -99,7 +116,6 @@ console.log(isInfoShown);
 
 // functionality for the stop/play game button----------------------------
 document.getElementById('game-btn').addEventListener("click", handleGame);
-let isGameGoing = true;
 function handleGame(){
   const gameBtn = document.getElementById('game-btn');
     if(isGameGoing){
@@ -157,24 +173,28 @@ function getMonsterSpeedValue(obj){
 // a function to execute the warrior attack
 function fight(){
     const warriorAttackValue = getAttackValue(warrior);
+    if (isGameGoing){
     if (warriorAttackValue > monster.defense) {
     monster.getLifeBar(monster.damage(warriorAttackValue - monster.defense));
     gameCheck();
-}
+}}
 }
 
 
 // a function to check the game status and execute the appropriate actions
 function gameCheck(){
   if(warrior.health === 0){
+    isGameGoing = false;
     alert("You lose");
 }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
+    isGameGoing = false;
     getStrength();
 }else if(monster.health === 0){
     if(monstersArray.length > 0){
     monster = getNewMonster();
     render();
     }else{
+        isGameGoing = false;
        alert("you win");
     }
 }
@@ -241,6 +261,7 @@ function handleFormSubmission(event) {
         hide(questionForm)
         show(fightBtn);
         modifyBlackAndWhite();
+        isGameGoing = true;
         warrior.superPower();
         warrior.superHealth();
         setTimeout(startMonsterAttack, 1000);
@@ -262,6 +283,7 @@ function handleFormSubmission(event) {
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
+        isGameGoing = true;
         setTimeout(startMonsterAttack, 1000);
       } else {
         formCounter++;
@@ -271,13 +293,9 @@ function handleFormSubmission(event) {
   }
 
 
-document.addEventListener('keydown', function(event){
-  console.log(event);
-})
-
 function render(){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
 }
-render();
+// render();
 

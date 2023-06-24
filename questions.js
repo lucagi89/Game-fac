@@ -344,9 +344,87 @@ const questions = [
     {
       question: "Did the Industrial Revolution begin in the 18th century?",
       correctAnswer: 'yes'
+    },
+    {
+      question: "Is Schrödinger's cat both alive and dead at the same time?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can a person's DNA be altered by experiences and passed down to future generations?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is there an upper limit to the number of dimensions in our universe?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can objects with mass travel at the speed of light?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is dark matter composed of ordinary matter that is simply invisible?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can time travel be achieved by going faster than the speed of light?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Do humans use only 10% of their brain capacity?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can quantum entanglement be used for instantaneous communication?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is the concept of 'free will' an illusion?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can energy be created or destroyed?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is it possible to achieve absolute zero temperature?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Do all species evolve at the same rate?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can the laws of physics be different in other parts of the universe?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can humans live forever through biological immortality?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is the expansion of the universe slowing down?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can information be transmitted faster than the speed of light?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is it possible to create perpetual motion machines?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can an object be in two places at once?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Is the concept of 'nothingness' physically achievable?",
+      correctAnswer: 'no'
+    },
+    {
+      question: "Can particles travel back in time?",
+      correctAnswer: 'no'
     }
+];
   
-  ];
-
-
 export default questions;
