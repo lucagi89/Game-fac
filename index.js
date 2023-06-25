@@ -350,10 +350,11 @@ function renderChoice(character){
     <h2>Choose your character</h2>
     <h4>${character.name}</h4>
     <div class="character-choice-img-container" id="character-choice-img-container">
-      <button id='backward'>⬅️</button>
+      <button id='backward'>►</button>
       <img src="${character.image}" alt="${character.name}" class="character-choice-img">
-      <button id='forward'>➡️</button>
+      <button id='forward'>►</button>
     </div>
+    <button id="select-character-btn" class="select-character-btn">Select</button>
   `
   characterChoiceContainer.innerHTML = characterChoice;
 
@@ -361,12 +362,34 @@ function renderChoice(character){
 
 characterChoiceContainer.addEventListener('click', function(event){
   if(event.target.id === 'forward'){
-    fightersIndex+=1;
+    fightersIndex++;
       getCharacter();
     }else if(event.target.id === 'backward'){
-      fightersIndex-=1;
+      fightersIndex--;
       getCharacter();
     }
 })
 
-      
+document.addEventListener('keydown', function(event){
+  switch(event.key){
+    case 'ArrowRight':
+      fightersIndex++;
+      getCharacter();
+      break;
+    case 'ArrowLeft':
+      fightersIndex--;
+      getCharacter();
+      break;
+    case 'Enter':
+      selectCharacter();
+      break;
+  }
+})
+
+let chosenCharacters = [];
+
+
+function selectCharacter(){
+  const chosenCharacterObj = fighters[allCharactersArray[fightersIndex]];
+  chosenCharacters.push(chosenCharacterObj);
+}
