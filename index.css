@@ -252,11 +252,27 @@ footer{
 
 
 .character-choice img{
-    width: 50%;
-    height: 50%;
-    object-fit: cover;
-    
+    width: 40%;
+    height: 100%;
+    border-radius: 20px;
   }
+
+.character-choice-img-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    width: 100%;
+    height: 60%;
+    margin-bottom: 1em;
+    /* border: solid white; */
+} 
+
+.character-choice-img-container button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2em;
+}
 
 @media (min-width: 768px){
    #fight-container{

@@ -58,8 +58,8 @@ function startGame(){
       enableBarKey();
       startMonsterAttack();
       render();
-    } else {
-      chooseYourCharacter();
+    } else if(modeChosen === 'two-players') {
+      getCharacter();
 }
 }
 
@@ -325,21 +325,48 @@ function render(){
 // 2 player game section-------------------------------------------------------------
 
 
+const characterChoiceContainer = document.getElementById('character-choice-container');
+
+const  allCharactersArray = ['warrior', 'witch', 'vampire', 'devil', 'dragon', 'death'];
+
+let fightersIndex = 0;
+
 function getCharacter(){
-
+  if (fightersIndex === allCharactersArray.length){
+    fightersIndex = 0;
+  }else if(fightersIndex < 0){
+    fightersIndex = allCharactersArray.length-1;
+  }
+ let monsterChoiceObj = fighters[allCharactersArray[fightersIndex]]
+ renderChoice(monsterChoiceObj);
 }
 
 
 
-function chooseYourCharacter(){
-  let monsterChoiceObj = fighters[monstersArray.shift()]
+function renderChoice(character){
+  characterChoiceContainer.classList.remove('hidden');
   const characterChoice =
-  `<div id = "character-choice-container" class="character-choice">
-  <h2>Choose your character</h2>
-  <h3>Player 1</h3>
-  <h4>${monsterChoiceObj.name}</h4>
-  <img src="${monsterChoiceObj.image}" alt="${monsterChoiceObj.name}" class="character-choice-img">
-  </div>
+  ` <h3>Player 1</h3>
+    <h2>Choose your character</h2>
+    <h4>${character.name}</h4>
+    <div class="character-choice-img-container" id="character-choice-img-container">
+      <button id='backward'>⬅️</button>
+      <img src="${character.image}" alt="${character.name}" class="character-choice-img">
+      <button id='forward'>➡️</button>
+    </div>
   `
-  document.querySelector('body').innerHTML += characterChoice;
+  characterChoiceContainer.innerHTML = characterChoice;
+
 }
+
+characterChoiceContainer.addEventListener('click', function(event){
+  if(event.target.id === 'forward'){
+    fightersIndex+=1;
+      getCharacter();
+    }else if(event.target.id === 'backward'){
+      fightersIndex-=1;
+      getCharacter();
+    }
+})
+
+      

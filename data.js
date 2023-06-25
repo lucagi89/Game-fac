@@ -7,6 +7,7 @@ const fighters = {
         health: 100,
         attack: [10, 20],
         defense: 10,
+        speed: [500, 1100]
     },
     witch:{
         name: "Witch",
