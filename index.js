@@ -330,6 +330,8 @@ const characterChoiceContainer = document.getElementById('character-choice-conta
 const  allCharactersArray = ['warrior', 'witch', 'vampire', 'devil', 'dragon', 'death'];
 
 let fightersIndex = 0;
+let monsterChoiceObj = '';
+let player = 'Player 1';
 
 function getCharacter(){
   if (fightersIndex === allCharactersArray.length){
@@ -337,16 +339,16 @@ function getCharacter(){
   }else if(fightersIndex < 0){
     fightersIndex = allCharactersArray.length-1;
   }
- let monsterChoiceObj = fighters[allCharactersArray[fightersIndex]]
+  monsterChoiceObj = fighters[allCharactersArray[fightersIndex]];
  renderChoice(monsterChoiceObj);
 }
 
 
 
 function renderChoice(character){
-  characterChoiceContainer.classList.remove('hidden');
+  show(characterChoiceContainer);
   const characterChoice =
-  ` <h3>Player 1</h3>
+  ` <h3>${player}</h3>
     <h2>Choose your character</h2>
     <h4>${character.name}</h4>
     <div class="character-choice-img-container" id="character-choice-img-container">
@@ -356,7 +358,9 @@ function renderChoice(character){
     </div>
     <button id="select-character-btn" class="select-character-btn">Select</button>
   `
-  characterChoiceContainer.innerHTML = characterChoice;
+
+  characterChoiceContainer.innerHTML = `<h1 style="font-size= 3em">${player}, choose your character!</h1>`;
+  setTimeout(function(){characterChoiceContainer.innerHTML = characterChoice;}, 1000)
 
 }
 
@@ -367,6 +371,8 @@ characterChoiceContainer.addEventListener('click', function(event){
     }else if(event.target.id === 'backward'){
       fightersIndex--;
       getCharacter();
+    }else if(event.target.id === 'select-character-btn'){
+      selectCharacter();
     }
 })
 
@@ -392,4 +398,11 @@ let chosenCharacters = [];
 function selectCharacter(){
   const chosenCharacterObj = fighters[allCharactersArray[fightersIndex]];
   chosenCharacters.push(chosenCharacterObj);
+  if(chosenCharacters.length < 2){
+  hide(characterChoiceContainer);
+  player = 'Player 2';
+  setTimeout(renderChoice(monsterChoiceObj), 3000);
+  }else{
+    console.log('start game');
+  }
 }
