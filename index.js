@@ -24,6 +24,8 @@ modeOptionContainer.addEventListener("click", function(e){
 
 let isGameGoing = false;
 
+// mode for one player--------------------------------------------------
+
 let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
 const warrior = new Fighter(fighters.warrior);
@@ -39,6 +41,7 @@ function getNewMonster() {
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
+// a function to use bar key to fight
 function enableBarKey(){
   if(isGameGoing){
   document.addEventListener('keydown', (e) => {
@@ -59,7 +62,7 @@ function startGame(){
       startMonsterAttack();
       render();
     } else if(modeChosen === 'two-players') {
-      getCharacter();
+      initializeChoice();
 }
 }
 
@@ -330,24 +333,24 @@ const characterChoiceContainer = document.getElementById('character-choice-conta
 const  allCharactersArray = ['warrior', 'witch', 'vampire', 'devil', 'dragon', 'death'];
 
 let fightersIndex = 0;
-let monsterChoiceObj = '';
 let player = 'Player 1';
 
-function getCharacter(){
+
+// to get the next character in the array
+function getCharacterObj(){
   if (fightersIndex === allCharactersArray.length){
     fightersIndex = 0;
   }else if(fightersIndex < 0){
     fightersIndex = allCharactersArray.length-1;
   }
-  monsterChoiceObj = fighters[allCharactersArray[fightersIndex]];
- renderChoice(monsterChoiceObj);
+  let characterObj = fighters[allCharactersArray[fightersIndex]];
+ return characterObj;
 }
 
 
-
-function renderChoice(character){
-  show(characterChoiceContainer);
-  const characterChoice =
+//to render the characer on the screen
+function getCharacterChoiceHtml(character){
+  const characterChoiceHtml =
   ` <h3>${player}</h3>
     <h2>Choose your character</h2>
     <h4>${character.name}</h4>
@@ -358,33 +361,44 @@ function renderChoice(character){
     </div>
     <button id="select-character-btn" class="select-character-btn">Select</button>
   `
-
-  characterChoiceContainer.innerHTML = `<h1 style="font-size= 3em">${player}, choose your character!</h1>`;
-  setTimeout(function(){characterChoiceContainer.innerHTML = characterChoice;}, 1000)
-
+  return characterChoiceHtml;
 }
 
+function initializeChoice(){
+
+  show(characterChoiceContainer);
+  characterChoiceContainer.innerHTML = `
+  <h1><span style="display:block; margin: 20px auto; font-size: 70px; margin-bottom:20px;">${player}</span>choose your character</h1>`;
+  setTimeout(renderCharacterChoice, 1000)
+}
+
+function renderCharacterChoice(){
+  characterChoiceContainer.innerHTML = getCharacterChoiceHtml(getCharacterObj());
+}
+
+// to select the character with the mouse
 characterChoiceContainer.addEventListener('click', function(event){
   if(event.target.id === 'forward'){
     fightersIndex++;
-      getCharacter();
+      renderCharacterChoice();
     }else if(event.target.id === 'backward'){
       fightersIndex--;
-      getCharacter();
+      renderCharacterChoice();
     }else if(event.target.id === 'select-character-btn'){
       selectCharacter();
     }
 })
 
+// to select the character with the keyboard
 document.addEventListener('keydown', function(event){
   switch(event.key){
     case 'ArrowRight':
       fightersIndex++;
-      getCharacter();
+      renderCharacterChoice();
       break;
     case 'ArrowLeft':
       fightersIndex--;
-      getCharacter();
+      renderCharacterChoice();
       break;
     case 'Enter':
       selectCharacter();
@@ -394,15 +408,50 @@ document.addEventListener('keydown', function(event){
 
 let chosenCharacters = [];
 
+let playerOne;
+let playerTwo;
 
 function selectCharacter(){
-  const chosenCharacterObj = fighters[allCharactersArray[fightersIndex]];
-  chosenCharacters.push(chosenCharacterObj);
+  chosenCharacters.push(getCharacterObj());
   if(chosenCharacters.length < 2){
-  hide(characterChoiceContainer);
+  fightersIndex = 0;
   player = 'Player 2';
-  setTimeout(renderChoice(monsterChoiceObj), 3000);
+  setTimeout(initializeChoice, 200);
   }else{
-    console.log('start game');
+    hide(characterChoiceContainer);
+    player = 'Player 1';
+    fightersIndex = 0;
+    playerOne = new Fighter(chosenCharacters[0]);
+    playerTwo = new Fighter(chosenCharacters[1]);
+    renderTwoPlayers();
   }
 }
+
+
+
+
+// to render the two players game
+function renderTwoPlayers(){
+
+  document.getElementById("warrior").innerHTML = playerOne.getFighterHtmlTwo('Player 1');
+  document.getElementById("monster").innerHTML = playerTwo.getFighterHtmlTwo('Player 2');
+  
+}
+
+document.addEventListener('keydown', function(event){
+  if(event.key === 'a' || event.key === 's'){
+    playerTwo.damage(1);
+  }else if(event.key === 'k' || event.key === 'l'){
+    playerOne.damage(1);
+  }
+  if(playerOne.health <= 0){
+    alert('Player 2 wins');
+  }else if(playerTwo.health <= 0){
+    alert('Player 1 wins');
+  }
+  renderTwoPlayers();
+})
+
+
+
+

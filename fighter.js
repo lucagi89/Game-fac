@@ -17,6 +17,18 @@ class Fighter{
             `;
         }
 
+
+    getFighterHtmlTwo(player){
+        const {name, image, health} = this;
+        return `
+            <h2>${name}</h2>
+            <h3>${player}</h3>
+            <img class = "fighter-img" src=${image} alt="${name}" />
+            <div>Health: ${health}</div>
+            ${this.getLifeBar(health)}
+            `;   
+    }
+
     damage(power){
         this.health -= power;
         if (this.health <= 0){
