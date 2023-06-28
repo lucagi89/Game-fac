@@ -50,24 +50,32 @@ function startGame(){
     modeChosen = 'one-player';
     show(fightBtn);
     enableBarKey();
-    setTimeout(startMonsterAttack, 1000);
+    show(document.querySelector('#game-btn'));
     render();
+    setTimeout(startMonsterAttack, 1000);
   } else if(modeChosen === 'two-players') {
     modeChosen = 'two-players';
     initializeChoice();
   }else{
-    alert('Please choose a mode!');
+    alert('Please choose a player mode');
+    location.reload()
   }
   document.querySelector('header h1').textContent = 'Death Fight';
-  show(document.querySelector('#game-btn'));
   show(document.querySelector('#info-btn'));
   show(document.querySelector('footer'))
 }
 
-function stopGame(){
-  hide(fightBtn);
-  stopMonsterAttack();
-  isGameGoing = false;
+function startStopGame(){
+  if(isGameGoing){
+    isGameGoing = false;
+    hide(fightBtn);
+    stopMonsterAttack();
+  }else{
+    isGameGoing = true;
+    show(fightBtn);
+    startMonsterAttack();
+  }
+  modifyBlackAndWhite();
 }
 
 // functionality for the music button----------------------------
@@ -85,6 +93,7 @@ function handleMusic(e){
       music.pause();
     }
 };
+
 //--------------------------------------------------------------
 
 // functionality for the info button----------------------------
@@ -111,13 +120,13 @@ function handleInfo(){
   
   `;
       show(infoContainer);
-      stopGame();
+      startStopGame();
       }else{
 
         isInfoShown = false;
         hide(infoContainer);
         if(document.getElementById('start-game').classList.contains('hidden')){
-        startGame();
+        startStopGame();
         }
 
       }
@@ -156,15 +165,11 @@ document.getElementById('game-btn').addEventListener("click", handleGame);
 function handleGame(){
   const gameBtn = document.getElementById('game-btn');
     if(isGameGoing){
-        isGameGoing = false;
-        stopGame();
         gameBtn.textContent = '▶️';
     }else{
-        isGameGoing = true;
-        startGame();
         gameBtn.textContent = '⏸';
     }
-    modifyBlackAndWhite();
+    startStopGame();
 }
 
 //--------------------------------------------------------------
@@ -189,14 +194,13 @@ function getNewMonster() {
 fightBtn.addEventListener("click", fight);
 // use bar key to fight
 function enableBarKey(){
-  if(isGameGoing){
   document.addEventListener('keydown', (e) => {
     if(e.key === ' '){
       fight();
     }
   })
 }
-}
+
 
 
 // a function to render the warrior and monster's health bars
@@ -254,35 +258,61 @@ let helps = 0;
 
 function gameCheck(){
   if(warrior.health === 0){
-    isGameGoing = false;
     alert("You lose");
 }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
     if (helps < 3){
-    isGameGoing = false;
     getStrength();
     }
+}else if(warrior.health <= 10 && warrior.health > 0 && hasFailedQuestions === true){
+    lastChance();
 }else if(monster.health === 0){
     if(monstersArray.length > 0){
     monster = getNewMonster();
     render();
     }else{
-        isGameGoing = false;
        alert("you win");
     }
 }
 render();
 }
 
+function lastChance(){
+  startStopGame();
+  hide(questionForm)
+  show(formContainer);
+  questionContainer.innerHTML = "";
+  const Number = getNumber();
+  explaination.innerHTML = `
+  <h2>OK, You'll get a last chance to live</h2>`
+  setTimeout(function(){
+    explaination.innerHTML = `
+      <h2>You'll be given a number, whatever number comes out, will be equal to the amount of life added to your Warrior</h2>`
+  }, 2000)
+  setTimeout(function(){
+    explaination.innerHTML = `<h2>You'll get ${Number} life points</h2>`
+  }, 4000)
+  setTimeout(function(){
+        hide(formContainer);
+        hide(questionForm)
+        startStopGame();
+        warrior.health += Number;
+        render();
+  }, 6000)
+
+}
+
+function getNumber(){
+  const number = Math.floor(Math.random() * 90);
+  return number;
+}
 
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
-  stopMonsterAttack();
-  modifyBlackAndWhite();
+  startStopGame();
   if (!isGetStrengthDisabled) {
     questionContainer.innerHTML = "";
-    fightBtn.classList.add('hidden');
-    formContainer.classList.remove("hidden");
+    show(formContainer);
     if(!hasBeenExplained){
     explaination.innerHTML = `
     <h2>Answer three questions to get more life and strength...</h2>`
@@ -318,6 +348,7 @@ function getStrength(){
 // data to handle the form and helps received during the game
 
 let questionsArray = getQuestionsArray();
+console.log(questionsArray);
 let questionsAskedNum = 0;
 let wrongAnswerCounter = 0;
 
@@ -330,7 +361,7 @@ questionForm.addEventListener("submit", handleFormSubmission);
 
 function handleFormSubmission(event) {
     event.preventDefault();
-    const answer = document.querySelector('input[name="answer"]').id;
+    const answer = document.querySelector('input[type="radio"]:checked').id;
     const rightAnswer = questionsArray[questionsAskedNum].correctAnswer;
     questionForm.reset();
     if (answer === rightAnswer) {
@@ -504,11 +535,13 @@ if(modeChosen === 'two-players'){
   }
   if(playerOne.health <= 0){
     alert('Player 2 wins');
+    location.reload();
     }else if(playerTwo.health <= 0){
     alert('Player 1 wins');
+    location.reload();
     }
+    renderTwoPlayers();
   }
-  renderTwoPlayers();
 
 });
 
