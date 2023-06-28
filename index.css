@@ -6,22 +6,17 @@
     box-sizing: border-box;
 }
 header{
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: rgb(255, 220, 42);
-    text-shadow: 0 0 5px rgb(255, 220, 42);
     background-color: rgba(72, 7, 7, 0.7);
     margin-bottom: 1em;
 }
 
-
-h2 {
+header, h2{
     font-size: 2rem;
     font-weight: 700;
     color: rgb(255, 220, 42);
     text-shadow: 0 0 20px rgb(255, 220, 42); 
-
 }
+
 
 body{
     background: url('./images/background.avif');
@@ -31,6 +26,9 @@ body{
     color: rgb(255, 220, 42);
 }
 
+
+
+/* 1 or 2 players choioce */
 .mode-option-container{
     display: flex;
     justify-content: space-around;
@@ -51,11 +49,12 @@ body{
 }
 
 
-
+/* to make the background gray */
 .gray{
     filter: grayscale(100%);
 }
 
+/* container for music, stop/play, and info buttons */
 .btns-container{
     position: fixed;
     bottom: 0;
@@ -64,8 +63,6 @@ body{
     display: flex;
     justify-content: space-between;
 }
-
-
 
 .music-button,
 .game-button,
@@ -80,6 +77,8 @@ body{
     transition: all 0.3s ease-in-out;
 }
 
+
+
 #warrior,
 #monster{
     margin: 0 auto;
@@ -87,8 +86,7 @@ body{
     height: 600px;
 }
 
-.start-game,
-.character-choice{
+.start-game{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -105,17 +103,6 @@ body{
     font-size: 1.8rem;
 }
 
-.win{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0, 0.7);
-    text-align: center;
-    top: 0;
-    left: 0;
-    /* z-index: 7; */
-}
-
 .fighter{
     margin: 3rem 0;
 }
@@ -129,7 +116,6 @@ body{
     border-radius: 20%;
     border: 2px solid rgb(255, 220, 42);
     box-shadow: 0 0 20px rgb(255, 220, 42);
-    /* transition: all 0.3s ease-in-out; */
 }
 
 .life-bar{
@@ -172,8 +158,7 @@ body{
     display: none;
 }
 
-.form-container,
-.info-container{
+.pop-up{
     background: url(./images/form-background.avif);
     border-radius: 20px;
     position: fixed;
@@ -230,13 +215,15 @@ body{
 
 
 footer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    
     margin-top: 1em;
     height: 10vh;
     background-color: rgba(0, 0, 0, 0.5);
+    margin-bottom: none;
+}
 
+footer p{
+    line-height: 10vh;
 }
 
 .highlight {
@@ -251,15 +238,12 @@ footer{
 /* 2 players mode -------------------------*/
 
 .character-choice-container{
-    background: url(./images/form-background.avif);
-    background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1em;
     width: 60vw;
     height: 80vh;
-    margin: 0 auto;
     padding: 1em;
 }
 

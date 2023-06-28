@@ -9,7 +9,7 @@ const explaination = document.getElementById("explaination");
 const formContainer = document.getElementById("form-container");
 const fightBtn = document.getElementById('fight-btn');
 
-
+let isGameGoing = false;
 let modeChosen = '';
 
 modeOptionContainer.addEventListener("click", function(e){
@@ -22,48 +22,46 @@ modeOptionContainer.addEventListener("click", function(e){
     modeChosen = e.target.id;
 });
 
-let isGameGoing = false;
+function win(){
+      if(modeChosen==='one-player'){
+        
 
-// mode for one player--------------------------------------------------
+        document.getElementById("fight-container").innerHTML = ''
 
-let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
 
-const warrior = new Fighter(fighters.warrior);
-let monster = getNewMonster();
 
-fightBtn.addEventListener("click", fight);
-questionForm.addEventListener("submit", handleFormSubmission);
+      }else if (modeChosen==='two-players'){
+      
+      
+      }
+}
+
+function lose(){}
+
+
+
 document.getElementById('start-game-btn').addEventListener('click', startGame);
 
-// a function to get a new monster from the array
-function getNewMonster() {
-    let nextMonsterObj = fighters[monstersArray.shift()]
-    return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
-}
-
-// a function to use bar key to fight
-function enableBarKey(){
-  if(isGameGoing){
-  document.addEventListener('keydown', (e) => {
-    if(e.key === ' '){
-      fight();
-    }
-  })
-}
-}
-
 function startGame(){
-    hide(document.getElementById('start-game'));
-    show(document.querySelector('.btns-container'));
-    isGameGoing = true;
-    if (modeChosen === 'one-player') {
-      show(fightBtn);
-      enableBarKey();
-      startMonsterAttack();
-      render();
-    } else if(modeChosen === 'two-players') {
-      initializeChoice();
-}
+  hide(document.getElementById('start-game'));
+  show(document.querySelector('.btns-container'));
+  isGameGoing = true;
+  if (modeChosen === 'one-player') {
+    modeChosen = 'one-player';
+    show(fightBtn);
+    enableBarKey();
+    setTimeout(startMonsterAttack, 1000);
+    render();
+  } else if(modeChosen === 'two-players') {
+    modeChosen = 'two-players';
+    initializeChoice();
+  }else{
+    alert('Please choose a mode!');
+  }
+  document.querySelector('header h1').textContent = 'Death Fight';
+  show(document.querySelector('#game-btn'));
+  show(document.querySelector('#info-btn'));
+  show(document.querySelector('footer'))
 }
 
 function stopGame(){
@@ -71,7 +69,6 @@ function stopGame(){
   stopMonsterAttack();
   isGameGoing = false;
 }
-
 
 // functionality for the music button----------------------------
 document.getElementById('music-btn').addEventListener("click", handleMusic);
@@ -97,7 +94,8 @@ let isInfoShown = false;
 
 function handleInfo(){
     const infoContainer = document.getElementById('info-container');
-    if (isInfoShown === false) {
+  if(modeChosen === 'one-player'){
+      if (isInfoShown === false) {
       isInfoShown = true;
       infoContainer.innerHTML =  `
        
@@ -114,15 +112,40 @@ function handleInfo(){
   `;
       show(infoContainer);
       stopGame();
-    }else{
+      }else{
+
         isInfoShown = false;
         hide(infoContainer);
         if(document.getElementById('start-game').classList.contains('hidden')){
         startGame();
         }
 
-}
-console.log(isInfoShown);
+      }
+  }else if(modeChosen === 'two-players'){
+      if (isInfoShown === false) {
+      isInfoShown = true;
+      infoContainer.innerHTML =  `
+       
+      <h2>How the game works...</h2>
+      <div>
+        <p>You guys have to attack each other</p>
+        <p>Player 1 can use the keys 'a' and 's'</p>
+        <p>Player 2 can use the keys 'k' and 'l'</p>
+        <p>The first player who finishes the other's energy wins</p>
+        <p>Easy peasy lemon squeezy</p>
+      </div>
+      `;
+      show(infoContainer);
+      }else{
+
+        isInfoShown = false;
+        hide(infoContainer);
+
+      }
+    
+    
+  }
+  modifyBlackAndWhite();
 }
 
 //--------------------------------------------------------------
@@ -145,6 +168,36 @@ function handleGame(){
 }
 
 //--------------------------------------------------------------
+
+
+// 1 player mode--------------------------------------------------
+
+let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
+
+const warrior = new Fighter(fighters.warrior);
+let monster = getNewMonster();
+
+
+
+// a function to get a new monster from the array
+function getNewMonster() {
+    let nextMonsterObj = fighters[monstersArray.shift()]
+    return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
+}
+
+// use button to fight
+fightBtn.addEventListener("click", fight);
+// use bar key to fight
+function enableBarKey(){
+  if(isGameGoing){
+  document.addEventListener('keydown', (e) => {
+    if(e.key === ' '){
+      fight();
+    }
+  })
+}
+}
+
 
 // a function to render the warrior and monster's health bars
 function monsterAttack(){
@@ -273,6 +326,8 @@ let isGetStrengthDisabled = false;
 let hasFailedQuestions = false;
 let hasBeenExplained = false;
 
+questionForm.addEventListener("submit", handleFormSubmission);
+
 function handleFormSubmission(event) {
     event.preventDefault();
     const answer = document.querySelector('input[name="answer"]').id;
@@ -321,7 +376,6 @@ function render(){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
 }
-// render();
 
 
 
@@ -438,19 +492,25 @@ function renderTwoPlayers(){
   
 }
 
+
+
+
 document.addEventListener('keydown', function(event){
+if(modeChosen === 'two-players'){
   if(event.key === 'a' || event.key === 's'){
-    playerTwo.damage(1);
+  playerTwo.damage(1);
   }else if(event.key === 'k' || event.key === 'l'){
-    playerOne.damage(1);
+  playerOne.damage(1);
   }
   if(playerOne.health <= 0){
     alert('Player 2 wins');
-  }else if(playerTwo.health <= 0){
+    }else if(playerTwo.health <= 0){
     alert('Player 1 wins');
+    }
   }
   renderTwoPlayers();
-})
+
+});
 
 
 

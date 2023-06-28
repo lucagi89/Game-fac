@@ -12,7 +12,7 @@
     <title>Death Fight</title>
 </head>
 <header>
-    <h1>Death Fight</h1>
+    <h1></h1>
 </header>
 <body>
     <div id = 'start-game' class="start-game">
@@ -26,26 +26,23 @@
         </div>
         <button id="start-game-btn" class="start-game-btn">Start Game</button>
     </div>
-    <div id = "character-choice-container" class="character-choice-container hidden">
-
-    </div>
+    
+    <div id = "character-choice-container" class="character-choice-container pop-up hidden"></div>
    
     <main id = 'fight-container' class="modify-color">
         <div id="warrior" class="fighter"></div>
         <div id="monster" class="fighter"></div>
     </main>
-    <div class="btns-container hidden">
+    <div class="btns-container">
         <button id="music-btn" class="music-button">🔇</button>
-        <button id="game-btn" class="game-button">⏸</button>
-        <button id="info-btn" class="info-button">❔</button>
+        <button id="game-btn" class="game-button hidden">⏸</button>
+        <button id="info-btn" class="info-button hidden">❔</button>
     </div>
-    <div id="info-container" class='info-container hidden'>
-
-    </div>
-    <section class="modify-color">
+    <div id="info-container" class='info-container pop-up hidden'></div>
+    <section>
         <button id="fight-btn" class="fight-btn hidden">Fight</button>
     </section>
-    <div id="form-container" class="form-container hidden">
+    <div id="form-container" class="form-container pop-up hidden">
         <div id="explaination"></div>
         <form id="form" class="question-form hidden" >
             <h2 id="question"></h2>
@@ -58,7 +55,7 @@
             <button type="submit" class="submit-btn">Submit</button>
         </form>`
     </div>
-    <footer>
+    <footer class="hidden">
         <p>Created by @Luca 2023</p>
     </footer>
     <script type="module" src="./index.js"></script>
