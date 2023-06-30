@@ -22,7 +22,7 @@ modeOptionContainer.addEventListener("click", function(e){
     modeChosen = e.target.id;
 });
 
-function win(){
+function win(winner){
       if(modeChosen==='one-player'){
         startStopGame();
         document.getElementById("fight-container").innerHTML = `<h1 class='won'>You won!</h1>`
@@ -30,7 +30,9 @@ function win(){
 
 
       }else if (modeChosen==='two-players'){
-      
+        startStopGame();
+        document.getElementById("fight-container").innerHTML = `<h1 class='won'>${winner} wins!</h1>`
+        setTimeout(function(){location.reload();}, 5000);
       
       }
 }
@@ -102,6 +104,13 @@ function handleMusic(e){
       music.pause();
     }
 };
+
+
+function warriorSounds(){
+    const warriorSounds = warrior.sounds;
+    console.log(warriorSounds);
+};
+
 
 //--------------------------------------------------------------
 
@@ -186,12 +195,13 @@ function handleGame(){
 
 // 1 player mode--------------------------------------------------
 
-let monstersArray = ['witch', 'vampire', 'devil', 'dragon', 'death'];
+let monstersArray = ['troll', 'vampire', 'devil', 'dragon', 'death'];
 
 const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
 
+warriorSounds()
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -437,7 +447,7 @@ function render(){
 
 const characterChoiceContainer = document.getElementById('character-choice-container');
 
-const  allCharactersArray = ['warrior', 'witch', 'vampire', 'devil', 'dragon', 'death'];
+const  allCharactersArray = ['warrior', 'troll', 'vampire', 'devil', 'dragon', 'death'];
 
 let fightersIndex = 0;
 let player = 'Player 1';
@@ -571,10 +581,10 @@ if(modeChosen === 'two-players'){
   playerOne.damage(1);
   }
   if(playerOne.health <= 0){
-    alert('Player 2 wins');
+    win('Player 2');
     location.reload();
     }else if(playerTwo.health <= 0){
-    alert('Player 1 wins');
+    win('Player 1');
     location.reload();
     }
     renderTwoPlayers();

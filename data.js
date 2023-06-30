@@ -7,15 +7,26 @@ const fighters = {
         health: 100,
         attack: [10, 20],
         defense: 10,
-        speed: [500, 1100]
+        speed: [500, 1100],
+        sounds: ['./sounds/warrior/sword1.wav', 
+                './sounds/warrior/sword2.wav',
+                './sounds/warrior/sword3.wav',
+                './sounds/warrior/sword4.wav',
+                './sounds/warrior/sword5.wav',
+                './sounds/warrior/warrior.wav',
+                ]
     },
-    witch:{
-        name: "Witch",
-        image: './images/witch.png',
+    troll:{
+        name: "Troll",
+        image: './images/troll.png',
         health: 100,
         attack: [15, 25], // [min, max
         defense: 5,
-        speed: [700, 1500]
+        speed: [700, 1500],
+        sounds: ['./sounds/troll/troll.wav',
+                './sounds/troll/troll laugh.wav',
+                './sounds/troll/troll dead.wav',
+                ]       
     },
     vampire:{
         name: "Vampire",
@@ -23,7 +34,10 @@ const fighters = {
         health: 100,
         attack: [17, 30], // [min, max
         defense: 8,
-        speed: [600, 1200]
+        speed: [600, 1200],
+        sounds: ['./sounds/vampire/vampire.mp3',
+                './sounds/vampire/vampire dead.wav',    
+                ]
     },
     devil:{
         name: "Devil",
@@ -31,7 +45,10 @@ const fighters = {
         health: 100,
         attack: [20, 35], // [min, max
         defense: 12,
-        speed: [500, 1100]
+        speed: [500, 1100],
+        sounds: ['./sounds/devil/devil.wav',
+                './sounds/devil/devil dead.wav',
+                ]
     },
     dragon:{
         name: "Dragon",
@@ -39,7 +56,10 @@ const fighters = {
         health: 100,
         attack: [25, 40], // [min, max
         defense: 15,
-        speed: [400, 1000]
+        speed: [400, 1000],
+        sounds: ['./sounds/dragon/dragon.mp3',
+                './sounds/dragon/dragon dead.wav',
+                ]
     },
     death:{
         name: "Death",
@@ -47,7 +67,8 @@ const fighters = {
         health: 100,
         attack: [30, 50], // [min, max
         defense: 20,
-        speed: [200, 800]
+        speed: [200, 800],
+        sounds: './sounds/death/death.wav',
     }
 }
 
