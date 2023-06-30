@@ -106,10 +106,15 @@ function handleMusic(e){
 };
 
 
-function warriorSounds(){
-    const warriorSounds = warrior.sounds;
-    console.log(warriorSounds);
-};
+function warriorSounds() {
+  if (isMusicClicked && isGameGoing) {
+    const randomSoundInterval = setInterval(function() {
+      const randomIndex = Math.floor(Math.random() * warrior.sounds.length);
+      const randomSound =new Audio(warrior.sounds[randomIndex]);
+      randomSound.play();
+    }, 1000);
+  }
+}
 
 
 //--------------------------------------------------------------
@@ -201,7 +206,6 @@ const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
 
-warriorSounds()
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -338,6 +342,7 @@ function countDown(){
       }else{
         hide(formContainer);
         startStopGame();
+        warriorSounds();
         clearInterval(interval);
       }
       }, 1000);
