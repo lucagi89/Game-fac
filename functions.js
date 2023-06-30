@@ -13,6 +13,7 @@ function hide(element){
 function getQuestionsArray(){
     const questionsArray = new Array(3).fill('').map(() => 
         questions[Math.floor(Math.random() * questions.length)]);
+        console.log(questionsArray);
     return questionsArray;
 }
 
@@ -35,7 +36,12 @@ function modifyBlackAndWhite(){
 }
 }
 
+function getNumber(){
+  const number = Math.floor(Math.random() * 90);
+  return number;
+}
 
 
 
-export {show, hide, getQuestionsArray, modifyBlackAndWhite};
+
+export {show, hide, getQuestionsArray, modifyBlackAndWhite, getNumber};

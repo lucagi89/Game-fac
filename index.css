@@ -26,6 +26,9 @@ body{
     color: rgb(255, 220, 42);
 }
 
+.won, .lost{
+    font-size: 300px;
+}
 
 
 /* 1 or 2 players choioce */
@@ -46,12 +49,6 @@ body{
     color: rgb(255, 0, 0);
 
     text-shadow: 0 0 20px rgb(255, 220, 42);
-}
-
-
-/* to make the background gray */
-.gray{
-    filter: grayscale(100%);
 }
 
 /* container for music, stop/play, and info buttons */
@@ -233,6 +230,12 @@ footer p{
   .colored{
     filter: none;
   }
+
+  /* to make the background gray */
+.gray{
+    filter: grayscale(100%);
+}
+
 
 
 /* 2 players mode -------------------------*/

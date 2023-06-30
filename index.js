@@ -1,6 +1,6 @@
 import fighters from "./data.js";
 import Fighter from "./fighter.js";
-import {show, hide, getQuestionsArray, modifyBlackAndWhite} from "./functions.js";
+import {show, hide, getQuestionsArray, modifyBlackAndWhite, getNumber} from "./functions.js";
 
 const modeOptionContainer = document.getElementById("mode-option-container");
 const questionContainer = document.getElementById("question");
@@ -24,10 +24,9 @@ modeOptionContainer.addEventListener("click", function(e){
 
 function win(){
       if(modeChosen==='one-player'){
-        
-
-        document.getElementById("fight-container").innerHTML = ''
-
+        startStopGame();
+        document.getElementById("fight-container").innerHTML = `<h1 class='won'>You won!</h1>`
+        setTimeout(function(){location.reload();}, 5000);
 
 
       }else if (modeChosen==='two-players'){
@@ -36,7 +35,19 @@ function win(){
       }
 }
 
-function lose(){}
+function lose(){
+  if(modeChosen==='one-player'){
+        startStopGame();
+
+    document.getElementById("fight-container").innerHTML = `<h1 class='lost'>You Lose!</h1>`
+    setTimeout(function(){location.reload();}, 5000);
+
+
+  }else if (modeChosen==='two-players'){
+  
+  
+  }
+}
 
 
 
@@ -45,16 +56,14 @@ document.getElementById('start-game-btn').addEventListener('click', startGame);
 function startGame(){
   hide(document.getElementById('start-game'));
   show(document.querySelector('.btns-container'));
-  isGameGoing = true;
   if (modeChosen === 'one-player') {
-    modeChosen = 'one-player';
-    show(fightBtn);
     enableBarKey();
     show(document.querySelector('#game-btn'));
+    
+    countDown();
+    modifyBlackAndWhite();
     render();
-    setTimeout(startMonsterAttack, 1000);
   } else if(modeChosen === 'two-players') {
-    modeChosen = 'two-players';
     initializeChoice();
   }else{
     alert('Please choose a player mode');
@@ -258,32 +267,36 @@ let helps = 0;
 
 function gameCheck(){
   if(warrior.health === 0){
-    alert("You lose");
+    lose();
+    isGameGoing = false;
 }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
     if (helps < 3){
     getStrength();
     }
-}else if(warrior.health <= 10 && warrior.health > 0 && hasFailedQuestions === true){
+}else if(warrior.health <= 10 && warrior.health > 0){
     lastChance();
 }else if(monster.health === 0){
     if(monstersArray.length > 0){
     monster = getNewMonster();
-    render();
     }else{
-       alert("you win");
+       win();
+        isGameGoing = false;
     }
 }
 render();
 }
 
+let lastChanceNumber = 0;
+
 function lastChance(){
+  if(lastChanceNumber === 0){
   startStopGame();
   hide(questionForm)
   show(formContainer);
   questionContainer.innerHTML = "";
   const Number = getNumber();
   explaination.innerHTML = `
-  <h2>OK, You'll get a last chance to live</h2>`
+  <h2>OK, You deserve a last chance to live</h2>`
   setTimeout(function(){
     explaination.innerHTML = `
       <h2>You'll be given a number, whatever number comes out, will be equal to the amount of life added to your Warrior</h2>`
@@ -298,14 +311,27 @@ function lastChance(){
         warrior.health += Number;
         render();
   }, 6000)
-
+  lastChanceNumber++;
+  }
 }
 
-function getNumber(){
-  const number = Math.floor(Math.random() * 90);
-  return number;
-}
 
+function countDown(){
+  let counter = 3;
+  show(formContainer)
+  const interval = setInterval(function(){
+      if(counter > 0){
+        explaination.innerHTML = `
+        <p>Get ready to fight in...</p>
+        <h1 style=' font-size:200px'>${counter}</h1>`;
+        counter--;
+      }else{
+        hide(formContainer);
+        startStopGame();
+        clearInterval(interval);
+      }
+      }, 1000);
+}
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
@@ -348,7 +374,6 @@ function getStrength(){
 // data to handle the form and helps received during the game
 
 let questionsArray = getQuestionsArray();
-console.log(questionsArray);
 let questionsAskedNum = 0;
 let wrongAnswerCounter = 0;
 
@@ -366,14 +391,10 @@ function handleFormSubmission(event) {
     questionForm.reset();
     if (answer === rightAnswer) {
       if (questionsAskedNum === 2) {
-        hide(formContainer);
-        hide(questionForm)
-        show(fightBtn);
-        modifyBlackAndWhite();
-        isGameGoing = true;
         warrior.superPower();
         warrior.superHealth();
-        setTimeout(startMonsterAttack, 1000);
+        hide(questionForm);
+        countDown();
         questionsAskedNum = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();
@@ -387,16 +408,15 @@ function handleFormSubmission(event) {
       wrongAnswerCounter++;
       if (wrongAnswerCounter > 1) {
         hide(formContainer);
-        show(fightBtn);
         alert("Sorry, but you have to continue with your own strength");
-        modifyBlackAndWhite();
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
-        isGameGoing = true;
-        setTimeout(startMonsterAttack, 1000);
+        hide(questionForm);
+        countDown();
       } else {
         questionsAskedNum++;
+        console.log(questionsAskedNum);
         questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       }
     }
@@ -404,8 +424,10 @@ function handleFormSubmission(event) {
 
 
 function render(){
+  if(isGameGoing){
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
+  }
 }
 
 
@@ -508,11 +530,26 @@ function selectCharacter(){
     fightersIndex = 0;
     playerOne = new Fighter(chosenCharacters[0]);
     playerTwo = new Fighter(chosenCharacters[1]);
-    renderTwoPlayers();
+    countDownnTwo();
   }
 }
 
-
+function countDownnTwo(){
+  let counter = 3;
+  show(formContainer);
+  const countDown = setInterval(function(){
+    if(counter === 0){
+      clearInterval(countDown);
+      renderTwoPlayers();
+      hide(formContainer);
+    }else{
+      formContainer.innerHTML = `
+            <p>Get ready to start in...</p>
+            <h1 style=' font-size:200px'>${counter}</h1>`;
+      counter--;
+    }
+  }, 1000)
+}
 
 
 // to render the two players game
