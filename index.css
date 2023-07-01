@@ -83,6 +83,19 @@ body{
     height: 600px;
 }
 
+.dead-monster{
+    background: url(./images/form-background.avif);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    width: 300px;
+    height:400px;
+    border-radius: 20%;
+    color: red;
+    font-size: 3rem;
+}
+
 .start-game{
     position: fixed;
     top: 50%;

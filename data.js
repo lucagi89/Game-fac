@@ -24,7 +24,6 @@ const fighters = {
         defense: 5,
         speed: [700, 1500],
         sounds: ['./sounds/troll/troll.wav',
-                './sounds/troll/troll laugh.wav',
                 './sounds/troll/troll dead.wav',
                 ]       
     },

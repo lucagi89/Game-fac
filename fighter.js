@@ -17,6 +17,11 @@ class Fighter{
             `;
         }
 
+    getDeadHtml(){
+        const name = this.name;
+        return ` <div class='dead-monster'><h1>${name} is dead</h1></div>`;
+    }
+
 
     getFighterHtmlTwo(player){
         const {name, image, health} = this;

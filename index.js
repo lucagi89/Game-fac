@@ -105,16 +105,13 @@ function handleMusic(e){
     }
 };
 
-
-function warriorSounds() {
-  if (isMusicClicked && isGameGoing) {
-    const randomSoundInterval = setInterval(function() {
+function warriorSound() {
+    if (isMusicClicked && isGameGoing) {
       const randomIndex = Math.floor(Math.random() * warrior.sounds.length);
       const randomSound =new Audio(warrior.sounds[randomIndex]);
       randomSound.play();
-    }, 1000);
-  }
-}
+    };
+  };
 
 
 //--------------------------------------------------------------
@@ -210,6 +207,10 @@ let monster = getNewMonster();
 // a function to get a new monster from the array
 function getNewMonster() {
     let nextMonsterObj = fighters[monstersArray.shift()]
+    // if(isMusicClicked){
+    //   const monsterSound = new Audio(nextMonsterObj.sounds[0]);
+    //   monsterSound.play();
+    // }
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
@@ -270,10 +271,10 @@ function fight(){
     if (isGameGoing){
     if (warriorAttackValue > monster.defense) {
     monster.getLifeBar(monster.damage(warriorAttackValue - monster.defense));
+    warriorSound();
     gameCheck();
 }}
 }
-
 
 // a function to check the game status and execute the appropriate actions
 
@@ -290,8 +291,17 @@ function gameCheck(){
 }else if(warrior.health <= 10 && warrior.health > 0){
     lastChance();
 }else if(monster.health === 0){
+    if(isMusicClicked){
+      const monsterDead = new Audio(monster.sounds[1]);
+      monsterDead.play();
+    }
+    startStopGame();
+    document.getElementById("monster").innerHTML = monster.getDeadHtml();
     if(monstersArray.length > 0){
-    monster = getNewMonster();
+    setTimeout(function(){
+      monster = getNewMonster()
+      startStopGame();
+      }, 3000);
     }else{
        win();
         isGameGoing = false;
@@ -341,11 +351,10 @@ function countDown(){
         counter--;
       }else{
         hide(formContainer);
-        startStopGame();
-        warriorSounds();
         clearInterval(interval);
+        startStopGame();
       }
-      }, 1000);
+      }, 500);
 }
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
@@ -440,6 +449,7 @@ function handleFormSubmission(event) {
 
 function render(){
   if(isGameGoing){
+    console.log(warrior.health)
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
   }
@@ -569,7 +579,7 @@ function countDownnTwo(){
 
 // to render the two players game
 function renderTwoPlayers(){
-
+    
   document.getElementById("warrior").innerHTML = playerOne.getFighterHtmlTwo('Player 1');
   document.getElementById("monster").innerHTML = playerTwo.getFighterHtmlTwo('Player 2');
   
@@ -587,10 +597,8 @@ if(modeChosen === 'two-players'){
   }
   if(playerOne.health <= 0){
     win('Player 2');
-    location.reload();
     }else if(playerTwo.health <= 0){
     win('Player 1');
-    location.reload();
     }
     renderTwoPlayers();
   }
