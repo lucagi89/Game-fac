@@ -22,33 +22,37 @@ modeOptionContainer.addEventListener("click", function(e){
     modeChosen = e.target.id;
 });
 
+const winSound = new Audio('./sounds/win.mp3');
+
 function win(winner){
-      if(modeChosen==='one-player'){
-        startStopGame();
-        document.getElementById("fight-container").innerHTML = `<h1 class='won'>You won!</h1>`
-        setTimeout(function(){location.reload();}, 5000);
-
-
-      }else if (modeChosen==='two-players'){
-        startStopGame();
-        document.getElementById("fight-container").innerHTML = `<h1 class='won'>${winner} wins!</h1>`
-        setTimeout(function(){location.reload();}, 5000);
-      
-      }
-}
-
-function lose(){
+  if(isMusicClicked){
+  music.pause();
+  winSound.play();
+  }
+  
   if(modeChosen==='one-player'){
-        startStopGame();
-
-    document.getElementById("fight-container").innerHTML = `<h1 class='lost'>You Lose!</h1>`
-    setTimeout(function(){location.reload();}, 5000);
+      startStopGame();
+      document.getElementById("fight-container").innerHTML = `<h1 class='won'>You won!</h1>`
+      setTimeout(function(){location.reload();}, 5000);
 
 
   }else if (modeChosen==='two-players'){
-  
-  
+      startStopGame();
+      document.getElementById("fight-container").innerHTML = `<h1 class='won'>${winner} wins!</h1>`
+      setTimeout(function(){location.reload();}, 5000);
+      
   }
+}
+
+function lose(){
+  startStopGame();
+  if(isMusicClicked){
+    music.pause();
+    const loseSound = new Audio('./sounds/lose.wav');
+    loseSound.play();
+  }
+  document.getElementById("fight-container").innerHTML = `<h1 class='lost'>You Lose!</h1>`
+  setTimeout(function(){location.reload();}, 5000);
 }
 
 
@@ -89,8 +93,18 @@ function startStopGame(){
   modifyBlackAndWhite();
 }
 
-// functionality for the music button----------------------------
-document.getElementById('music-btn').addEventListener("click", handleMusic);
+// event listener for the btns container 
+document.getElementById('btns-container').addEventListener('click', function(e){
+  if(e.target.id === 'music-btn'){
+    handleMusic(e);
+  }else if(e.target.id === 'game-btn'){
+    handleGame();
+  }else if(e.target.id === 'info-btn'){
+    handleInfo();
+  }
+});
+
+// functionality for the music ----------------------------
 const music = new Audio("./music/background.mp3");
 let isMusicClicked = false;
 function handleMusic(e){
@@ -113,21 +127,26 @@ function warriorSound() {
     };
   };
 
+function monsterSound(monster) {
+  if(isMusicClicked){
+    const monsterSound = new Audio(monster.sounds[0]);
+    monsterSound.play();
+  }
+}
+
 
 //--------------------------------------------------------------
 
 // functionality for the info button----------------------------
-document.getElementById('info-btn').addEventListener("click", handleInfo);
 
 let isInfoShown = false;
 
 function handleInfo(){
-    const infoContainer = document.getElementById('info-container');
+  const infoContainer = document.getElementById('info-container');
   if(modeChosen === 'one-player'){
       if (isInfoShown === false) {
       isInfoShown = true;
       infoContainer.innerHTML =  `
-       
       <h2>How the game works...</h2>
       <div>
         <p>Your character is the super warrior</p>
@@ -136,25 +155,27 @@ function handleInfo(){
         <p>Every time you kill a monster you'll get a new one until you kill them all and win the game</p>
         <p>If during the fight your health bar goes less than 30% you'll have the 
         opportunity to answer three general knowledge questions to get more life and strength</p>
-      </div>
-  
-  `;
+      </div>`;
+
       show(infoContainer);
-      startStopGame();
+        if (isGameGoing === true){
+          startStopGame();
+        }
+      
       }else{
 
-        isInfoShown = false;
-        hide(infoContainer);
-        if(document.getElementById('start-game').classList.contains('hidden')){
-        startStopGame();
+      isInfoShown = false;
+      hide(infoContainer);
+      if(document.getElementById('start-game').classList.contains('hidden')){
+        if (isGameGoing === false){
+          startStopGame();
         }
-
+      }
       }
   }else if(modeChosen === 'two-players'){
       if (isInfoShown === false) {
       isInfoShown = true;
       infoContainer.innerHTML =  `
-       
       <h2>How the game works...</h2>
       <div>
         <p>You guys have to attack each other</p>
@@ -166,22 +187,16 @@ function handleInfo(){
       `;
       show(infoContainer);
       }else{
-
-        isInfoShown = false;
-        hide(infoContainer);
-
+      isInfoShown = false;
+      hide(infoContainer);
       }
-    
-    
   }
-  modifyBlackAndWhite();
 }
 
 //--------------------------------------------------------------
 
 
 // functionality for the stop/play game button----------------------------
-document.getElementById('game-btn').addEventListener("click", handleGame);
 function handleGame(){
   const gameBtn = document.getElementById('game-btn');
     if(isGameGoing){
@@ -206,11 +221,8 @@ let monster = getNewMonster();
 
 // a function to get a new monster from the array
 function getNewMonster() {
-    let nextMonsterObj = fighters[monstersArray.shift()]
-    // if(isMusicClicked){
-    //   const monsterSound = new Audio(nextMonsterObj.sounds[0]);
-    //   monsterSound.play();
-    // }
+    let nextMonsterObj = fighters[monstersArray.shift()];
+    setTimeout(monsterSound(nextMonsterObj), 2000);
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
@@ -231,6 +243,7 @@ function enableBarKey(){
 function monsterAttack(){
     const monsterAttack = getAttackValue(monster) - warrior.defense;
     warrior.getLifeBar(warrior.damage(monsterAttack));
+    render();
     gameCheck();
 }
 
@@ -449,7 +462,6 @@ function handleFormSubmission(event) {
 
 function render(){
   if(isGameGoing){
-    console.log(warrior.health)
    document.getElementById("warrior").innerHTML = warrior.getFighterHtml();
     document.getElementById("monster").innerHTML = monster.getFighterHtml(); 
   }
