@@ -141,9 +141,9 @@ function monsterSound(monster) {
 
 let isInfoShown = false;
 
-function handleInfo(){
+function handleInfo(mode){
   const infoContainer = document.getElementById('info-container');
-  if(modeChosen === 'one-player'){
+  if(modeChosen === 'one-player' || mode === 'one-player' ){
       if (isInfoShown === false) {
       isInfoShown = true;
       infoContainer.innerHTML =  `
@@ -172,7 +172,7 @@ function handleInfo(){
         }
       }
       }
-  }else if(modeChosen === 'two-players'){
+  }else if(modeChosen === 'two-players' || mode === 'two-players'){
       if (isInfoShown === false) {
       isInfoShown = true;
       infoContainer.innerHTML =  `
@@ -192,6 +192,7 @@ function handleInfo(){
       }
   }
 }
+
 
 //--------------------------------------------------------------
 
