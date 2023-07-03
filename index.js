@@ -25,21 +25,22 @@ modeOptionContainer.addEventListener("click", function(e){
 const winSound = new Audio('./sounds/win.mp3');
 
 function win(winner){
+  startStopGame();
   if(isMusicClicked){
   music.pause();
   winSound.play();
   }
   
   if(modeChosen==='one-player'){
-      startStopGame();
       document.getElementById("fight-container").innerHTML = `<h1 class='won'>You won!</h1>`
-      setTimeout(function(){location.reload();}, 5000);
+      setTimeout(function(){location.reload();}, 9000);
 
 
   }else if (modeChosen==='two-players'){
-      startStopGame();
+      if(!fightBtn.classList.contains('hidden')){
+          hide(fightBtn);}
       document.getElementById("fight-container").innerHTML = `<h1 class='won'>${winner} wins!</h1>`
-      setTimeout(function(){location.reload();}, 5000);
+      setTimeout(function(){location.reload();}, 9000);
       
   }
 }
@@ -52,7 +53,7 @@ function lose(){
     loseSound.play();
   }
   document.getElementById("fight-container").innerHTML = `<h1 class='lost'>You Lose!</h1>`
-  setTimeout(function(){location.reload();}, 5000);
+  setTimeout(function(){location.reload();}, 6000);
 }
 
 
@@ -223,7 +224,7 @@ let monster = getNewMonster();
 // a function to get a new monster from the array
 function getNewMonster() {
     let nextMonsterObj = fighters[monstersArray.shift()];
-    setTimeout(monsterSound(nextMonsterObj), 2000);
+    setTimeout(monsterSound(nextMonsterObj), 1000);
     return nextMonsterObj ? new Fighter(nextMonsterObj) : {}
 }
 
@@ -310,12 +311,12 @@ function gameCheck(){
       monsterDead.play();
     }
     startStopGame();
-    document.getElementById("monster").innerHTML = monster.getDeadHtml();
     if(monstersArray.length > 0){
+    document.getElementById("monster").innerHTML = monster.getDeadHtml();
     setTimeout(function(){
       monster = getNewMonster()
-      startStopGame();
-      }, 3000);
+      }, 2500);
+      setTimeout(function(){startStopGame();}, 3500);
     }else{
        win();
         isGameGoing = false;
@@ -357,22 +358,25 @@ function lastChance(){
 function countDown(){
   let counter = 3;
   show(formContainer)
+  explaination.classList.add('countdown');
   const interval = setInterval(function(){
       if(counter > 0){
         explaination.innerHTML = `
         <p>Get ready to fight in...</p>
         <h1 style=' font-size:200px'>${counter}</h1>`;
-        counter--;
+      
+      counter--;
       }else{
-        hide(formContainer);
         clearInterval(interval);
-        startStopGame();
+        hide(formContainer);
+        setTimeout(function(){startStopGame();}, 1000)
       }
-      }, 500);
+    }, 500);
 }
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
+  explaination.classList.remove('countdown');
   startStopGame();
   if (!isGetStrengthDisabled) {
     questionContainer.innerHTML = "";

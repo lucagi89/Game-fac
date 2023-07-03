@@ -19,7 +19,7 @@ class Fighter{
 
     getDeadHtml(){
         const name = this.name;
-        return ` <div class='dead-monster'><h1>${name} is dead</h1></div>`;
+        return ` <div class='dead-monster'><h1>Congratulations!!! ${name} is dead</h1></div>`;
     }
 
 

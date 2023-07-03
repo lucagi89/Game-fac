@@ -2,15 +2,19 @@
 
 *{
     margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
+html, body{ 
+    min-width:100%;
+    max-width: 100%;
+  }
 
 body{
     
     background: url('./images/background.avif');
     background-size: cover;
+    background-repeat: no-repeat;
     text-align: center;
     font-family: 'MedievalSharp', cursive;
     color: rgb(255, 220, 42);
@@ -18,13 +22,14 @@ body{
 
 header{
     display: block;
+    min-width: 390px;
+    margin-bottom: 1em;
+    padding: 1px;
     background-color: rgba(72, 7, 7, 0.7);
-    width: 100vw;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 3rem ;
 }
 
-header, h2{
+h2{
     font-size: 2rem;
     font-weight: 700;
     text-shadow: 0 0 20px rgb(255, 220, 42); 
@@ -34,82 +39,16 @@ header, h2{
     font-size: 150px;
 }
 
-
-/* 1 or 2 players choioce */
-.mode-option-container{
-    display: flex;
-    justify-content: space-around;
-    width: 60%;
-    margin: 0 auto;
-}
-
-#one-player:hover,
-#two-players:hover{
-    text-shadow: 0 0 20px rgb(255, 220, 42);
-    cursor: pointer;
-}
-
-.selected{
-    color: rgb(255, 0, 0);
-
-    text-shadow: 0 0 20px rgb(255, 220, 42);
-}
-
-/* container for music, stop/play, and info buttons */
-.btns-container{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: space-between;
-}
-
-.music-button,
-.game-button,
-.info-button{
-    margin: 0.5rem;
-    padding: 0.3rem;
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: black;
-    font-size: large;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-
-
-#warrior,
-#monster{
-    margin: 0 auto;
-    width: 500px;
-    height: 600px;
-}
-
-.dead-monster{
-    position: fixed;
-    top: 15%;
-    left: 25%;
-    background: url(./images/form-background.avif);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 250px;
-    height:350px;
-    border-radius: 20%;
-    color: red;
-    font-size: 1.8rem;
-}
-
+/* starting window of the game */
 .start-game{
     position: fixed;
+    min-width: 350px;
     top: 50%;
     left: 50%;
     border-radius: 10px;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.6);
-    margin: 0 auto;
-    width: 80%;
+    width: 90%;
     height: 80%;
     display: flex;
     flex-direction: column;
@@ -126,18 +65,51 @@ header, h2{
     justify-content: space-between;
     width: 60%;
     height: 70px;
-    margin: 0 auto;
+
 }
 
-.fighter-img, .win-image{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    width: 250px;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 20%;
-    border: 2px solid rgb(255, 220, 42);
-    box-shadow: 0 0 20px rgb(255, 220, 42);
+/* for the selected mode */
+.selected{
+    color: rgb(255, 0, 0);
+    text-shadow: 0 0 20px rgb(255, 220, 42);
+}
+
+
+#one-player:hover,
+#two-players:hover{
+    text-shadow: 0 0 20px rgb(255, 220, 42);
+    cursor: pointer;
+}
+
+
+/* container for music, stop/play, and info buttons */
+.btns-container{
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.music-button,
+.game-button,
+.info-button{
+    margin: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-size: large;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* divs containing the rendered fighters */
+#warrior,
+#monster{
+    margin: 0 auto;
+    min-width: 390px;
+    width: 90%;
+    height: 600px;
 }
 
 .life-bar{
@@ -157,6 +129,41 @@ header, h2{
 
 .dying{
     background-color: red;
+}
+
+/* pops up when the monster is dead */
+.dead-monster{
+    background: url(./images/form-background.avif);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
+    margin: 0 auto;
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
+    font-size: 1.5rem;
+}
+
+
+.fighter-img, .win-image{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 20%;
+    border: 2px solid rgb(255, 220, 42);
+}
+
+.countdown{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
 }
 
 /* buttons */
@@ -183,17 +190,19 @@ header, h2{
     display: none;
 }
 
+/*pop ups windows throughout the game */
 .pop-up{
     background: url(./images/form-background.avif);
     border-radius: 20px;
     position: fixed;
     right: 0;
     left: 0;
-    top: 0;
+    top: 10%;
     bottom: 0;
-    margin: auto;
-    height: 80vh;
-    width: 300px;
+    height: 600px;
+    width: 90%;
+    min-width: 390px;
+    margin: 0 auto;
 }
 
 .info-container{
@@ -239,7 +248,7 @@ header, h2{
 
 
 footer{
-    
+    min-width: 390px;
     height: 10vh;
     background-color: rgba(0, 0, 0, 0.5);
     margin-bottom: none;
@@ -253,6 +262,7 @@ footer p{
     color: red;
   }
 
+    /* to make the background back to colored */
   .colored{
     filter: none;
   }
@@ -271,8 +281,9 @@ footer p{
     flex-direction: column;
     justify-content: center;
     gap: 1em;
-    width: 400px;
-    height: 80vh;
+    width: 90%;
+    min-width: 390px;
+    height: 600px;
     padding: 1em;
 }
 
@@ -295,9 +306,12 @@ footer p{
     border: none;
     cursor: pointer;
     font-size: 6em;
+    width: 60%;
     color: rgb(255, 220, 42);
 }
 
+
+/* used to turn an arrow in the chracter choice window */
 #backward{
     transform: rotate(180deg);
 }
@@ -306,6 +320,8 @@ footer p{
 .hidden{
     display: none;
 }
+
+
 /* Media queries -------------------------*/
 
 @media (min-width: 768px){
@@ -315,6 +331,28 @@ footer p{
        align-items: center;
        height: 80vh;
    }
+
+   .start-game{
+    width: 70%;
+    font-size: 2.2rem;
+   }
+
+   .mode-option-container{
+    flex-direction: row;
+    justify-content: space-around;
+        width: 80%;
+   }
+   
+   #warrior,
+    #monster{
+    width: 500px;
+    }
+
+    .pop-up,
+    .character-choice-container{
+    width: 60%;
+    }
+
 
    
 }
