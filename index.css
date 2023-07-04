@@ -274,6 +274,7 @@ footer p{
 
 button{
     touch-action: manipulation;
+    user-select: none;
 }
 
 
