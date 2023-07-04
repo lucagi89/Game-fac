@@ -272,6 +272,10 @@ footer p{
     filter: grayscale(100%);
 }
 
+button{
+    touch-action: manipulation;
+}
+
 
 
 /* 2 players mode -------------------------*/
