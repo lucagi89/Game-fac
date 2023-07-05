@@ -577,6 +577,7 @@ function selectCharacter(){
 }
 
 function countDownnTwo(){
+  explaination.classList.add('countdown')
   let counter = 3;
   show(formContainer);
   const countDown = setInterval(function(){
@@ -585,18 +586,18 @@ function countDownnTwo(){
       renderTwoPlayers();
       hide(formContainer);
     }else{
-      formContainer.innerHTML = `
+      explaination.innerHTML = `
             <p>Get ready to start in...</p>
             <h1 style=' font-size:200px'>${counter}</h1>`;
       counter--;
     }
-  }, 1000)
+  }, 500)
 }
 
 
 // to render the two players game
 function renderTwoPlayers(){
-    
+  explaination.classList.remove('countdown')
   document.getElementById("warrior").innerHTML = playerOne.getFighterHtmlTwo('Player 1');
   document.getElementById("monster").innerHTML = playerTwo.getFighterHtmlTwo('Player 2');
   
@@ -618,6 +619,16 @@ if(modeChosen === 'two-players'){
     win('Player 1');
     }
     renderTwoPlayers();
+  }
+
+  // to play the sound only every other time
+  let num = 0;
+  isGameGoing = true;
+  if(num === 0){
+  warriorSound();
+  num++;
+  }else{
+    num = 0;
   }
 
 });
