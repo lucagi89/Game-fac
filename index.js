@@ -8,6 +8,7 @@ const questionForm = document.getElementById("form");
 const explaination = document.getElementById("explaination");
 const formContainer = document.getElementById("form-container");
 const fightBtn = document.getElementById('fight-btn');
+const infoContainer = document.getElementById('info-container');
 
 let isGameGoing = false;
 let modeChosen = '';
@@ -81,16 +82,24 @@ function startGame(){
 }
 
 function startStopGame(){
-  if(isGameGoing){
-    isGameGoing = false;
-    hide(fightBtn);
-    stopMonsterAttack();
-  }else{
-    isGameGoing = true;
-    show(fightBtn);
-    startMonsterAttack();
-  }
+  // if(isGameGoing){
+  //   isGameGoing = false;
+  //   hide(fightBtn);
+  //   stopMonsterAttack();
+  // }else{
+  //   isGameGoing = true;
+  //   show(fightBtn);
+  //   startMonsterAttack();
+  // }
+
+  isGameGoing = !isGameGoing;
+  fightBtn.classList.toggle('hidden');
   modifyBlackAndWhite();
+  if(isGameGoing){
+    startMonsterAttack();
+  }else{
+    stopMonsterAttack();
+  }
 }
 
 // event listener for the btns container 
@@ -98,7 +107,7 @@ document.getElementById('btns-container').addEventListener('click', function(e){
   if(e.target.id === 'music-btn'){
     handleMusic(e);
   }else if(e.target.id === 'game-btn'){
-    handleGame();
+    handleGame(true);
   }else if(e.target.id === 'info-btn'){
     handleInfo();
   }
@@ -122,7 +131,7 @@ function handleMusic(e){
 function warriorSound() {
     if (isMusicClicked && isGameGoing) {
       const randomIndex = Math.floor(Math.random() * warrior.sounds.length);
-      const randomSound =new Audio(warrior.sounds[randomIndex]);
+      const randomSound = new Audio(warrior.sounds[randomIndex]);
       randomSound.play();
     };
   };
@@ -142,7 +151,6 @@ function monsterSound(monster) {
 let isInfoShown = false;
 
 function handleInfo(mode){
-  const infoContainer = document.getElementById('info-container');
   if(modeChosen === 'one-player' || mode === 'one-player' ){
       if (isInfoShown === false) {
       isInfoShown = true;
@@ -157,15 +165,13 @@ function handleInfo(mode){
         opportunity to answer three general knowledge questions to get more life and strength</p>
       </div>`;
 
-      show(infoContainer);
-        if (isGameGoing === true){
-          handleGame();
-        }
+      handleGame();
+        
       
       }else{
 
       isInfoShown = false;
-      hide(infoContainer);
+      handleGame();
       }
   }else if(modeChosen === 'two-players' || mode === 'two-players'){
       if (isInfoShown === false) {
@@ -193,13 +199,21 @@ function handleInfo(mode){
 
 
 // functionality for the stop/play game button----------------------------
-function handleGame(){
+function handleGame(pressed){
   const gameBtn = document.getElementById('game-btn');
     if(isGameGoing){
         gameBtn.textContent = '▶️';
     }else{
         gameBtn.textContent = '⏸';
     }
+    if(!pressed){
+    infoContainer.classList.toggle('hidden');
+    }else{
+      if(isInfoShown){
+        infoContainer.classList.add('hidden');
+        isInfoShown = false;
+    }}
+
     startStopGame();
 }
 
@@ -213,7 +227,12 @@ let monstersArray = ['troll', 'vampire', 'devil', 'dragon', 'death'];
 const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
-
+if(monster.health === 0){
+  if(isMusicClicked){
+    const monsterDead = new Audio(monster.sounds[1]);
+    monsterDead.play();
+  }
+}
 
 // a function to get a new monster from the array
 function getNewMonster() {
@@ -237,7 +256,6 @@ function monsterAttack(){
     warrior.getLifeBar(warrior.damage(monsterAttack));
     render();
     gameCheck();
-    console.log(warrior.health);
 }
 
 //interval section for the monster attacks--------------------
@@ -288,31 +306,22 @@ let helps = 0;
 
 function gameCheck(){
   if(monster.health === 0){
-    if(isMusicClicked){
-      const monsterDead = new Audio(monster.sounds[1]);
-      monsterDead.play();
-    }
     startStopGame();
     if(monstersArray.length > 0){
-    document.getElementById("monster").innerHTML = monster.getDeadHtml();
-    setTimeout(function(){
-      monster = getNewMonster()
-      }, 2500);
+      document.getElementById("monster").innerHTML = monster.getDeadHtml();
+      setTimeout(function(){monster = getNewMonster()}, 2500);
       setTimeout(function(){startStopGame();}, 3500);
     }else{
-       win();
+      win();
     }
   }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
-      if (helps < 3){
-      getStrength();
-      }
-  }else if(warrior.health <= 10 && warrior.health > 0){
-      lastChance();
-    }else if(warrior.health === 0){
+      if (helps < 3){getStrength()}else{lastChance()};
+  }else if(warrior.health === 0){
       lose();
 }
 render();
 }
+
 
 let lastChanceNumber = 0;
 
@@ -333,11 +342,12 @@ function lastChance(){
     explaination.innerHTML = `<h2>You'll get ${Number} life points</h2>`
   }, 4000)
   setTimeout(function(){
+        
         hide(formContainer);
         hide(questionForm)
         startStopGame();
         warrior.health += Number;
-        render();
+        countDown();
   }, 6000)
   lastChanceNumber++;
   }
@@ -347,7 +357,7 @@ function lastChance(){
 function countDown(){
   let counter = 3;
   show(formContainer)
-  explaination.classList.add('countdown');
+  explaination.classList.toggle('countdown');
   const interval = setInterval(function(){
       if(counter > 0){
         explaination.innerHTML = `
@@ -367,7 +377,7 @@ function countDown(){
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
 function getStrength(){
-  explaination.classList.remove('countdown');
+  explaination.classList.toggle('countdown');
   startStopGame();
   if (!isGetStrengthDisabled) {
     questionContainer.innerHTML = "";
@@ -427,11 +437,11 @@ function handleFormSubmission(event) {
         warrior.superPower();
         warrior.superHealth();
         hide(questionForm);
-        formContainer.innerHTML = `
+        explaination.innerHTML = `
         <h2>Well done! You get more strenght and life!</h2>
         <p>Click <em>here</em> to continue</p>
         `;
-        formContainer.addEventListener("click", countDown);
+        explaination.addEventListener("click", countDown);
         questionsAskedNum = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();
