@@ -12,6 +12,7 @@ const fightBtn = document.getElementById('fight-btn');
 let isGameGoing = false;
 let modeChosen = '';
 
+// listens for the mode chosen by the player
 modeOptionContainer.addEventListener("click", function(e){
     document.querySelectorAll('.selected').forEach(selection => {
         selection.classList.remove('selected');
@@ -45,6 +46,7 @@ function win(winner){
   }
 }
 
+
 function lose(){
   startStopGame();
   if(isMusicClicked){
@@ -64,12 +66,9 @@ function startGame(){
   hide(document.getElementById('start-game'));
   show(document.querySelector('.btns-container'));
   if (modeChosen === 'one-player') {
-    enableBarKey();
     show(document.querySelector('#game-btn'));
-    
     countDown();
     modifyBlackAndWhite();
-    render();
   } else if(modeChosen === 'two-players') {
     initializeChoice();
   }else{
@@ -160,18 +159,13 @@ function handleInfo(mode){
 
       show(infoContainer);
         if (isGameGoing === true){
-          startStopGame();
+          handleGame();
         }
       
       }else{
 
       isInfoShown = false;
       hide(infoContainer);
-      if(document.getElementById('start-game').classList.contains('hidden')){
-        if (isGameGoing === false){
-          startStopGame();
-        }
-      }
       }
   }else if(modeChosen === 'two-players' || mode === 'two-players'){
       if (isInfoShown === false) {
@@ -230,23 +224,20 @@ function getNewMonster() {
 
 // use button to fight
 fightBtn.addEventListener("click", fight);
-// use bar key to fight
-function enableBarKey(){
-  document.addEventListener('keydown', (e) => {
-    if(e.key === ' '){
-      fight();
-    }
-  })
-}
+
 
 
 
 // a function to render the warrior and monster's health bars
 function monsterAttack(){
-    const monsterAttack = getAttackValue(monster) - warrior.defense;
+    let monsterAttack = getAttackValue(monster) - warrior.defense;
+    if(monsterAttack < 0){
+      monsterAttack = 0;
+    }
     warrior.getLifeBar(warrior.damage(monsterAttack));
     render();
     gameCheck();
+    console.log(warrior.health);
 }
 
 //interval section for the monster attacks--------------------
@@ -296,16 +287,7 @@ function fight(){
 let helps = 0;
 
 function gameCheck(){
-  if(warrior.health === 0){
-    lose();
-    isGameGoing = false;
-}else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
-    if (helps < 3){
-    getStrength();
-    }
-}else if(warrior.health <= 10 && warrior.health > 0){
-    lastChance();
-}else if(monster.health === 0){
+  if(monster.health === 0){
     if(isMusicClicked){
       const monsterDead = new Audio(monster.sounds[1]);
       monsterDead.play();
@@ -319,8 +301,15 @@ function gameCheck(){
       setTimeout(function(){startStopGame();}, 3500);
     }else{
        win();
-        isGameGoing = false;
     }
+  }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
+      if (helps < 3){
+      getStrength();
+      }
+  }else if(warrior.health <= 10 && warrior.health > 0){
+      lastChance();
+    }else if(warrior.health === 0){
+      lose();
 }
 render();
 }
@@ -369,7 +358,9 @@ function countDown(){
       }else{
         clearInterval(interval);
         hide(formContainer);
-        setTimeout(function(){startStopGame();}, 1000)
+        setTimeout(function(){
+          startStopGame()
+          render();}, 1000)
       }
     }, 500);
 }
@@ -436,7 +427,11 @@ function handleFormSubmission(event) {
         warrior.superPower();
         warrior.superHealth();
         hide(questionForm);
-        countDown();
+        formContainer.innerHTML = `
+        <h2>Well done! You get more strenght and life!</h2>
+        <p>Click <em>here</em> to continue</p>
+        `;
+        formContainer.addEventListener("click", countDown);
         questionsAskedNum = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();
@@ -450,15 +445,16 @@ function handleFormSubmission(event) {
       wrongAnswerCounter++;
       if (wrongAnswerCounter > 1) {
         hide(formContainer);
-        alert("Sorry, but you have to continue with your own strength");
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
         hide(questionForm);
-        countDown();
+        formContainer.innerHTML = `
+        <h2>Sorry, but you have to continue with your own strength</h2>
+        <p>Click <em>here</em> to continue</p>`;
+        formContainer.addEventListener("click", countDown);
       } else {
         questionsAskedNum++;
-        console.log(questionsAskedNum);
         questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       }
     }
@@ -610,15 +606,17 @@ document.addEventListener('keydown', function(event){
 if(modeChosen === 'two-players'){
   if(event.key === 'a' || event.key === 's'){
   playerTwo.damage(1);
+  renderTwoPlayers();
   }else if(event.key === 'k' || event.key === 'l'){
   playerOne.damage(1);
+  renderTwoPlayers();
   }
+  
   if(playerOne.health <= 0){
-    win('Player 2');
+    win(playerTwo.name);
     }else if(playerTwo.health <= 0){
-    win('Player 1');
+    win(playerOne.name);
     }
-    renderTwoPlayers();
   }
 
   // to play the sound only every other time

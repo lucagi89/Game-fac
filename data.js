@@ -5,7 +5,7 @@ const fighters = {
         name: "Super Warrior",
         image: './images/warrior.png',
         health: 100,
-        attack: [10, 20],
+        attack: [6, 10],
         defense: 10,
         speed: [500, 1100],
         sounds: ['./sounds/warrior/sword1.wav', 
@@ -20,8 +20,8 @@ const fighters = {
         name: "Troll",
         image: './images/troll.png',
         health: 100,
-        attack: [15, 25], // [min, max
-        defense: 5,
+        attack: [5, 13], // [min, max
+        defense: 2,
         speed: [700, 1500],
         sounds: ['./sounds/troll/troll.wav',
                 './sounds/troll/troll dead.wav',
@@ -31,8 +31,8 @@ const fighters = {
         name: "Vampire",
         image: './images/vampire.png',
         health: 100,
-        attack: [17, 30], // [min, max
-        defense: 8,
+        attack: [7, 15], // [min, max
+        defense: 4,
         speed: [600, 1200],
         sounds: ['./sounds/vampire/vampire.mp3',
                 './sounds/vampire/vampire dead.wav',    
@@ -42,8 +42,8 @@ const fighters = {
         name: "Devil",
         image: './images/devil.png',
         health: 100,
-        attack: [20, 35], // [min, max
-        defense: 12,
+        attack: [8, 17], // [min, max
+        defense: 6,
         speed: [500, 1100],
         sounds: ['./sounds/devil/devil.wav',
                 './sounds/devil/devil dead.wav',
@@ -53,8 +53,8 @@ const fighters = {
         name: "Dragon",
         image: './images/dragon.png',
         health: 100,
-        attack: [25, 40], // [min, max
-        defense: 15,
+        attack: [10, 20], // [min, max
+        defense: 8,
         speed: [400, 1000],
         sounds: ['./sounds/dragon/dragon.mp3',
                 './sounds/dragon/dragon dead.wav',
@@ -64,8 +64,8 @@ const fighters = {
         name: "Death",
         image: './images/death.png',
         health: 100,
-        attack: [30, 50], // [min, max
-        defense: 20,
+        attack: [15, 25], // [min, max
+        defense: 10,
         speed: [200, 800],
         sounds: './sounds/death/death.wav',
     }

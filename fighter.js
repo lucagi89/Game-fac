@@ -43,12 +43,12 @@ class Fighter{
     }
 
     superPower(){
-        this.attack[1] += 15;
+        this.attack[1] += 10;
         return this.attack;
     }
 
     superHealth(){
-        this.health += 50;
+        this.health += 60;
         if (this.health >= 100){
             this.health = 100;
         }

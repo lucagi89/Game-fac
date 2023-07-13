@@ -20,19 +20,11 @@ function getQuestionsArray(){
 
 
 const elements = document.querySelectorAll('.modify-color');
-let isColored = true;
-function modifyBlackAndWhite(){
-  if(isColored){
+
+function modifyBlackAndWhite() {
   elements.forEach(element => {
-    element.classList.add('gray');
-});
-  isColored = false;
-} else{
-  elements.forEach(element => {
-    element.classList.remove('gray');
-});
-  isColored = true;
-}
+    element.classList.toggle('gray');
+  });
 }
 
 function getNumber(){
