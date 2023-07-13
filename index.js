@@ -113,6 +113,12 @@ document.getElementById('btns-container').addEventListener('click', function(e){
   }
 });
 
+document.addEventListener('keydown', function(e){
+  if(e.key === ' '){
+    handleGame(true);
+  }
+});
+
 // functionality for the music ----------------------------
 const music = new Audio("./music/background.mp3");
 let isMusicClicked = false;
