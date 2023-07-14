@@ -315,9 +315,9 @@ function gameCheck(){
       win();
     }
   }else if(warrior.health <= 30 && hasFailedQuestions === false ){ 
-      if (helps < 3){getStrength()}else{lastChance()};
+      if (helps < 3){getStrength();}
   }else if(warrior.health === 0){
-      lose();
+      if(lastChanceNumber === 0){lastChance()}else{lose()}
 }
 render();
 }
@@ -326,7 +326,6 @@ render();
 let lastChanceNumber = 0;
 
 function lastChance(){
-  if(lastChanceNumber === 0){
   startStopGame();
   hide(questionForm)
   show(formContainer);
@@ -334,29 +333,31 @@ function lastChance(){
   const Number = getNumber();
   explaination.innerHTML = `
   <h2>OK, You deserve a last chance to live</h2>`
+  
   setTimeout(function(){
     explaination.innerHTML = `
       <h2>You'll be given a number, whatever number comes out, will be equal to the amount of life added to your Warrior</h2>`
   }, 2000)
+  
   setTimeout(function(){
     explaination.innerHTML = `<h2>You'll get ${Number} life points</h2>`
   }, 4000)
+  
   setTimeout(function(){
-        
         hide(formContainer);
-        hide(questionForm)
-        startStopGame();
+        hide(questionForm);
         warrior.health += Number;
         countDown();
   }, 6000)
   lastChanceNumber++;
-  }
 }
 
 
 function countDown(){
   let counter = 3;
-  show(formContainer)
+  if(formContainer.classList.contains('hidden')){
+    show(formContainer)
+    }
   explaination.classList.toggle('countdown');
   const interval = setInterval(function(){
       if(counter > 0){
@@ -456,15 +457,15 @@ function handleFormSubmission(event) {
     } else {
       wrongAnswerCounter++;
       if (wrongAnswerCounter > 1) {
-        hide(formContainer);
+        // hide(formContainer);
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
         hide(questionForm);
-        formContainer.innerHTML = `
+        explaination.innerHTML = `
         <h2>Sorry, but you have to continue with your own strength</h2>
         <p>Click <em>here</em> to continue</p>`;
-        formContainer.addEventListener("click", countDown);
+        explaination.addEventListener("click", countDown);
       } else {
         questionsAskedNum++;
         questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
