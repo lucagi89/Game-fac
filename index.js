@@ -112,6 +112,7 @@ document.addEventListener('keydown', function(e){
 // functionality for the music ----------------------------
 const music = new Audio("./music/background.mp3");
 let isMusicClicked = false;
+
 function handleMusic(e){
   if (e.target.id === "music-btn" && !isMusicClicked) {
       isMusicClicked = true;
@@ -223,13 +224,6 @@ let monstersArray = ['troll', 'vampire', 'devil', 'dragon', 'death'];
 const warrior = new Fighter(fighters.warrior);
 let monster = getNewMonster();
 
-if(monster.health === 0){
-  if(isMusicClicked){
-    const monsterDead = new Audio(monster.sounds[1]);
-    monsterDead.play();
-  }
-}
-
 // a function to get a new monster from the array
 function getNewMonster() {
     let nextMonsterObj = fighters[monstersArray.shift()];
@@ -302,6 +296,9 @@ let helps = 0;
 
 function gameCheck(){
   if(monster.health === 0){
+    if(isMusicClicked){
+      const monsterDead = new Audio(monster.sounds[1]);
+      monsterDead.play()}
     startStopGame();
     if(monstersArray.length > 0){
       document.getElementById("monster").innerHTML = monster.getDeadHtml();
@@ -426,6 +423,8 @@ questionForm.addEventListener("submit", handleFormSubmission);
 function handleFormSubmission(event) {
     event.preventDefault();
     const answer = document.querySelector('input[type="radio"]:checked').id;
+    // to not count extra clicks on the submit button, sometimes it happens when browser freezes
+    if(questionsAskedNum > 2){questionsAskedNum = 2};
     const rightAnswer = questionsArray[questionsAskedNum].correctAnswer;
     questionForm.reset();
     if (answer === rightAnswer) {
