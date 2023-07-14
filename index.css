@@ -7,7 +7,6 @@
 }
 
 body{
-    
     background: url('./images/background.avif');
     background-size: cover;
     background-repeat: no-repeat;
@@ -153,11 +152,15 @@ h2{
     justify-content: center;
     align-items: center;
     padding: 2em;
-    margin: 0 auto;
     width: 400px;
     height: 500px;
     border-radius: 20px;
     font-size: 1.5rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: none;
 }
 
 
@@ -203,7 +206,7 @@ h2{
     position: fixed;
     bottom: 50px;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -50%);
     padding: 1rem 2rem;
     border: none;
     border-radius: 10px;
@@ -218,16 +221,11 @@ h2{
     border: solid 3px white;
 }
 
-/* show hide elements */
-.hidden{
-    display: none;
-    pointer-events: none;
-    touch-action: none;
-}
-
 /*pop ups windows throughout the game */
 .pop-up{
     background: url(./images/form-background.avif);
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 20px;
     position: fixed;
     top: 50%;
@@ -237,6 +235,8 @@ h2{
     width: 90%;
     min-width: 390px;
 }
+
+/* for the info button */
 
 .info-container{
     display: flex;
@@ -292,10 +292,6 @@ footer{
 footer p{
     line-height: 10vh;
 }
-
-.highlight {
-    color: red;
-  }
 
     /* to make the background back to colored */
   .colored{
@@ -363,6 +359,9 @@ button{
     touch-action: none;
 }
 
+.no-select{
+    user-select: none;
+}
 
 /* Media queries -------------------------*/
 
@@ -371,7 +370,7 @@ button{
        flex-direction: row;
        justify-content: space-around;
        align-items: center;
-       height: 80%;
+       height: 800px;
    }
 
    .start-game{
@@ -394,7 +393,13 @@ button{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
     }
+
+    #warrior{
+        position: static;
+    }
+
 
     .form-container h2{
         font-size: 50px;
@@ -405,12 +410,6 @@ button{
         height: 500px;
     }
 
-    .fight-btn{
-        position:static;
-        width:300px;
-        height: 100px;
-        margin: 0 auto;
-    }
 
     .pop-up,
     .character-choice-container{
@@ -434,8 +433,8 @@ button{
 
 
     .fight-btn{
-        width:400px;
-        height: 100px;
+        width:300px;
+        height: 80px;
         bottom:50px;
     }
 

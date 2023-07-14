@@ -81,6 +81,7 @@ function startGame(){
     location.reload()
   }
   document.querySelector('header h1').textContent = 'Death Fight';
+  document.querySelector('header').classList.add('no-select');
   show(document.querySelector('#info-btn'));
   show(document.querySelector('footer'))
 }

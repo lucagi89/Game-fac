@@ -27,7 +27,7 @@
         <button id="start-game-btn" class="start-game-btn">Start Game</button>
     </div>
     <div id = "character-choice-container" class="character-choice-container pop-up hidden"></div>
-    <main id = 'fight-container'>
+    <main id = 'fight-container' class="no-select">
         <div id="warrior" class="fighter modify-color"></div>
         <div id="monster" class="fighter modify-color"></div>
     </main>
@@ -36,7 +36,7 @@
         <button id="game-btn" class="game-button hidden">⏸</button>
         <button id="info-btn" class="info-button hidden">❔</button>
     </div>
-    <div id="info-container" class='info-container pop-up hidden'></div>
+    <div id="info-container" class='info-container pop-up hidden no-select'></div>
     <section>
         <button id="fight-btn" class="fight-btn hidden">Fight</button>
     </section>
@@ -53,7 +53,7 @@
             <button type="submit" class="submit-btn">Submit</button>
         </form>`
     </div>
-    <footer class="hidden">
+    <footer class="hidden no-select">
         <p>Created by @Luca 2023</p>
     </footer>
     <script type="module" src="./index.js"></script>
