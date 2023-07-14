@@ -26,6 +26,7 @@ modeOptionContainer.addEventListener("click", function(e){
 
 const winSound = new Audio('./sounds/win.mp3');
 
+// when player wins
 function win(winner){
   startStopGame();
   if(isMusicClicked){
@@ -46,8 +47,7 @@ function win(winner){
       
   }
 }
-
-
+// when player loses
 function lose(){
   startStopGame();
   if(isMusicClicked){
@@ -59,8 +59,7 @@ function lose(){
   setTimeout(function(){location.reload();}, 6000);
 }
 
-
-
+// function to initialize the game
 document.getElementById('start-game-btn').addEventListener('click', startGame);
 
 function startGame(){
@@ -81,17 +80,8 @@ function startGame(){
   show(document.querySelector('footer'))
 }
 
+// to start or stop the game
 function startStopGame(){
-  // if(isGameGoing){
-  //   isGameGoing = false;
-  //   hide(fightBtn);
-  //   stopMonsterAttack();
-  // }else{
-  //   isGameGoing = true;
-  //   show(fightBtn);
-  //   startMonsterAttack();
-  // }
-
   isGameGoing = !isGameGoing;
   fightBtn.classList.toggle('hidden');
   modifyBlackAndWhite();
