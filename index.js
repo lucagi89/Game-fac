@@ -13,6 +13,9 @@ const infoContainer = document.getElementById('info-container');
 let isGameGoing = false;
 let modeChosen = '';
 
+
+
+
 // listens for the mode chosen by the player
 modeOptionContainer.addEventListener("click", function(e){
     document.querySelectorAll('.selected').forEach(selection => {
@@ -28,6 +31,7 @@ const winSound = new Audio('./sounds/win.mp3');
 
 // when player wins
 function win(winner){
+  fightBtn.classList.toggle('hidden');
   startStopGame();
   if(isMusicClicked){
   music.pause();
@@ -49,6 +53,7 @@ function win(winner){
 }
 // when player loses
 function lose(){
+  fightBtn.classList.toggle('hidden');
   startStopGame();
   if(isMusicClicked){
     music.pause();
@@ -103,11 +108,14 @@ document.getElementById('btns-container').addEventListener('click', function(e){
   }
 });
 
+// to stop the game with a bar key
+if(isGameGoing){
 document.addEventListener('keydown', function(e){
   if(e.key === ' '){
     handleGame(true);
   }
 });
+}
 
 // functionality for the music ----------------------------
 const music = new Audio("./music/background.mp3");
@@ -115,14 +123,13 @@ let isMusicClicked = false;
 
 function handleMusic(e){
   if (e.target.id === "music-btn" && !isMusicClicked) {
-      isMusicClicked = true;
       document.getElementById("music-btn").textContent = '🔊';
       music.play();
     } else if (e.target.id === "music-btn" && isMusicClicked) {
-      isMusicClicked = false;
       document.getElementById("music-btn").textContent = '🔇';
       music.pause();
     }
+    isMusicClicked = !isMusicClicked;
 };
 
 function warriorSound() {
@@ -524,23 +531,29 @@ function initializeChoice(){
 
 function renderCharacterChoice(){
   characterChoiceContainer.innerHTML = getCharacterChoiceHtml(getCharacterObj());
+  // to select the character with the mouse
+  characterChoiceContainer.addEventListener('click', selectCharacterArrows);
+  // to select the character with the keyboard
+  document.addEventListener('keydown', selectCharacterKeys);
 }
 
-// to select the character with the mouse
-characterChoiceContainer.addEventListener('click', function(event){
-  if(event.target.id === 'forward'){
-    fightersIndex++;
+function selectCharacterArrows(event){ 
+  switch(event.target.id){
+    case 'forward':
+      fightersIndex++;
       renderCharacterChoice();
-    }else if(event.target.id === 'backward'){
+      break;
+    case 'backward':
       fightersIndex--;
       renderCharacterChoice();
-    }else if(event.target.id === 'select-character-btn'){
+      break;
+    case 'select-character-btn':
       selectCharacter();
-    }
-})
+      break;
+  }
+}
 
-// to select the character with the keyboard
-document.addEventListener('keydown', function(event){
+function selectCharacterKeys(event){
   switch(event.key){
     case 'ArrowRight':
       fightersIndex++;
@@ -554,7 +567,7 @@ document.addEventListener('keydown', function(event){
       selectCharacter();
       break;
   }
-})
+}
 
 let chosenCharacters = [];
 
@@ -574,6 +587,7 @@ function selectCharacter(){
     playerOne = new Fighter(chosenCharacters[0]);
     playerTwo = new Fighter(chosenCharacters[1]);
     countDownnTwo();
+    document.addEventListener('keydown', play);
   }
 }
 
@@ -604,11 +618,17 @@ function renderTwoPlayers(){
   
 }
 
+let num = 0;
 
-
-
-document.addEventListener('keydown', function(event){
-if(modeChosen === 'two-players'){
+function play(event){
+  isGameGoing = true;
+  // to play the sound only every other time
+  if(num === 0){
+    warriorSound();
+    num++;
+    }else{
+      num = 0;
+    }
   if(event.key === 'a' || event.key === 's'){
   playerTwo.damage(1);
   renderTwoPlayers();
@@ -622,20 +642,4 @@ if(modeChosen === 'two-players'){
     }else if(playerTwo.health <= 0){
     win(playerOne.name);
     }
-  }
-
-  // to play the sound only every other time
-  let num = 0;
-  isGameGoing = true;
-  if(num === 0){
-  warriorSound();
-  num++;
-  }else{
-    num = 0;
-  }
-
-});
-
-
-
-
+}
