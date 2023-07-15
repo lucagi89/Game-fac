@@ -31,7 +31,9 @@ const winSound = new Audio('./sounds/win.mp3');
 
 // when player wins
 function win(winner){
-  fightBtn.classList.toggle('hidden');
+  if(!fightBtn.classList.contains('hidden')){
+    fightBtn.classList.add('hidden');
+    }
   startStopGame();
   if(isMusicClicked){
   music.pause();
@@ -53,7 +55,9 @@ function win(winner){
 }
 // when player loses
 function lose(){
-  fightBtn.classList.toggle('hidden');
+  if(!fightBtn.classList.contains('hidden')){
+  fightBtn.classList.add('hidden');
+  }
   startStopGame();
   if(isMusicClicked){
     music.pause();
@@ -310,8 +314,10 @@ function gameCheck(){
     startStopGame();
     if(monstersArray.length > 0){
       document.getElementById("monster").innerHTML = monster.getDeadHtml();
-      setTimeout(function(){monster = getNewMonster()}, 2500);
-      setTimeout(function(){startStopGame();}, 3500);
+      setTimeout(function(){
+        document.getElementById("monster").innerHTML = "";
+        monster = getNewMonster()
+        startStopGame()}, 3500);
     }else{
       win();
     }
@@ -372,7 +378,8 @@ function countDown(){
         hide(formContainer);
         setTimeout(function(){
           startStopGame()
-          render();}, 1000)
+          // render();
+        }, 1000)
       }
     }, 500);
 }
@@ -445,7 +452,9 @@ function handleFormSubmission(event) {
         <h2>Well done! You get more strenght and life!</h2>
         <p>Click <em>here</em> to continue</p>
         `;
-        explaination.addEventListener("click", countDown);
+        explaination.addEventListener("click", function(){
+          explaination.innerHTML = '';
+          countDown();});
         questionsAskedNum = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();

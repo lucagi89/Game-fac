@@ -67,7 +67,7 @@ const fighters = {
         attack: [15, 25], // [min, max
         defense: 10,
         speed: [200, 800],
-        sounds: './sounds/death/death.wav',
+        sounds: ['./sounds/death/death demon.mp3']
     }
 }
 
