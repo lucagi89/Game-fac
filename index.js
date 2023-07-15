@@ -91,10 +91,13 @@ function startGame(){
 }
 
 // to start or stop the game
-function startStopGame(){
+function startStopGame(monsterColored){
   isGameGoing = !isGameGoing;
   fightBtn.classList.toggle('hidden');
-  modifyBlackAndWhite();
+  if(monsterColored){
+  modifyBlackAndWhite(monsterColored);
+  }else{modifyBlackAndWhite();
+  }
   if(isGameGoing){
     startMonsterAttack();
   }else{
@@ -310,12 +313,14 @@ function gameCheck(){
   if(monster.health === 0){
     if(isMusicClicked){
       const monsterDead = new Audio(monster.sounds[1]);
-      monsterDead.play()}
-    startStopGame();
+      monsterDead.play()
+    }
+      startStopGame("monster-colored");
     if(monstersArray.length > 0){
       document.getElementById("monster").innerHTML = monster.getDeadHtml();
       setTimeout(function(){
         document.getElementById("monster").innerHTML = "";
+        document.getElementById('monster').classList.toggle('gray');
         monster = getNewMonster()
         startStopGame()}, 3500);
     }else{
@@ -361,6 +366,7 @@ function lastChance(){
 
 
 function countDown(){
+  explaination.innerHTML = '';
   let counter = 3;
   if(formContainer.classList.contains('hidden')){
     show(formContainer)
@@ -382,46 +388,48 @@ function countDown(){
         }, 1000)
       }
     }, 500);
-}
+    render();
+  }
+
 
 // a function to create a pop up form to get more life and strength when the warrior's health is less than 30
-function getStrength(){
+function getStrength() {
   explaination.classList.toggle('countdown');
   startStopGame();
+
   if (!isGetStrengthDisabled) {
     questionContainer.innerHTML = "";
     show(formContainer);
-    if(!hasBeenExplained){
-    explaination.innerHTML = `
-    <h2>Answer three questions to get more life and strength...</h2>`
-    setTimeout(function(){
+
+    if (!hasBeenExplained) {
       explaination.innerHTML = `
-        <h2>...but if you fail to answer correctly at least 2 of them</h2>`
-    }, 1000)
-    setTimeout(function(){
+        <h2>Answer three questions to get more life and strength...</h2>`;
+
+      setTimeout(function() {
         explaination.innerHTML = `
-        <h2>...You'll have to continue as it is...</h2>`
+          <h2>...but if you fail to answer correctly at least 2 of them</h2>`;
+      }, 1000);
+
+      setTimeout(function() {
+        explaination.innerHTML = `
+          <h2>...You'll have to continue as it is...</h2>`;
         hasBeenExplained = true;
-    }, 2000)
-    setTimeout(function(){
-      explaination.innerHTML =''
-      questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
-      show(questionForm)
-    }, 3000)
-  } else{
+      }, 2000);
+    } else {
       questionContainer.innerHTML = "";
       explaination.innerHTML = `
-        <h2>Ok...the fight is getting tougher and you deserve an opportunity to augment your strength even more... </h2>`
-    
-    setTimeout(function(){
-      explaination.innerHTML =''
+        <h2>Ok...the fight is getting tougher and you deserve an opportunity to augment your strength even more... </h2>`;
+    }
+
+    setTimeout(function() {
+      explaination.innerHTML = '';
       questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
-      show(questionForm)
-    }, 2000)
+      show(questionForm);
+    }, 3000);
   }
 }
 
-}
+
 
 // data to handle the form and helps received during the game
 
@@ -452,14 +460,11 @@ function handleFormSubmission(event) {
         <h2>Well done! You get more strenght and life!</h2>
         <p>Click <em>here</em> to continue</p>
         `;
-        explaination.addEventListener("click", function(){
-          explaination.innerHTML = '';
-          countDown();});
+        explaination.addEventListener("click", afterForm);
         questionsAskedNum = 0;
         wrongAnswerCounter = 0;
         questionsArray = getQuestionsArray();
         helps++;
-        render();
       } else {
         questionsAskedNum++;
         questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
@@ -467,7 +472,6 @@ function handleFormSubmission(event) {
     } else {
       wrongAnswerCounter++;
       if (wrongAnswerCounter > 1) {
-        // hide(formContainer);
         hasFailedQuestions = true;
         isGetStrengthDisabled = true;
         questionsArray = getQuestionsArray();
@@ -475,12 +479,19 @@ function handleFormSubmission(event) {
         explaination.innerHTML = `
         <h2>Sorry, but you have to continue with your own strength</h2>
         <p>Click <em>here</em> to continue</p>`;
-        explaination.addEventListener("click", countDown);
+          explaination.addEventListener("click", afterForm);
       } else {
         questionsAskedNum++;
         questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       }
     }
+  }
+
+  //function called after the form with the questions has been submitted
+  function afterForm(){
+    explaination.innerHTML = '';
+    countDown();
+    explaination.removeEventListener("click", afterForm);
   }
 
 

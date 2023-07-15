@@ -16,15 +16,15 @@ function getQuestionsArray(){
     return questionsArray;
 }
 
-
-
-
-const elements = document.querySelectorAll('.modify-color');
-
-function modifyBlackAndWhite() {
-  elements.forEach(element => {
-    element.classList.toggle('gray');
-  });
+// a function to modify the black and white filter on the warrior and monster
+function modifyBlackAndWhite(monsterColored) {
+  // if monsterColored is true, then only the warrior will be black and white
+  if(monsterColored){
+    document.getElementById('warrior').classList.toggle('gray');
+  }else{
+  document.getElementById('warrior').classList.toggle('gray');
+  document.getElementById('monster').classList.toggle('gray');
+  }
 }
 
 function getNumber(){
