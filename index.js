@@ -36,8 +36,8 @@ function win(winner){
     }
   startStopGame();
   if(isMusicClicked){
-  music.pause();
-  winSound.play();
+    music.pause();
+    winSound.play();
   }
   
   if(modeChosen==='one-player'){
@@ -56,7 +56,7 @@ function win(winner){
 // when player loses
 function lose(){
   if(!fightBtn.classList.contains('hidden')){
-  fightBtn.classList.add('hidden');
+    fightBtn.classList.add('hidden');
   }
   startStopGame();
   if(isMusicClicked){
@@ -94,10 +94,13 @@ function startGame(){
 function startStopGame(monsterColored){
   isGameGoing = !isGameGoing;
   fightBtn.classList.toggle('hidden');
+  
   if(monsterColored){
-  modifyBlackAndWhite(monsterColored);
-  }else{modifyBlackAndWhite();
+    modifyBlackAndWhite(monsterColored);
+  }else{
+    modifyBlackAndWhite();
   }
+  
   if(isGameGoing){
     startMonsterAttack();
   }else{
@@ -115,15 +118,6 @@ document.getElementById('btns-container').addEventListener('click', function(e){
     handleInfo();
   }
 });
-
-// to stop the game with a bar key
-if(isGameGoing){
-document.addEventListener('keydown', function(e){
-  if(e.key === ' '){
-    handleGame(true);
-  }
-});
-}
 
 // functionality for the music ----------------------------
 const music = new Audio("./music/background.mp3");
@@ -164,7 +158,8 @@ let isInfoShown = false;
 
 function handleInfo(mode){
   if(modeChosen === 'one-player' || mode === 'one-player' ){
-      if (isInfoShown === false) {
+      
+    if (isInfoShown === false) {
       isInfoShown = true;
       infoContainer.innerHTML =  `
       <h2>How the game works...</h2>
@@ -176,32 +171,29 @@ function handleInfo(mode){
         <p>If during the fight your health bar goes less than 30% you'll have the 
         opportunity to answer three general knowledge questions to get more life and strength</p>
       </div>`;
-
       handleGame();
-        
-      
-      }else{
+    }else{
 
       isInfoShown = false;
       handleGame();
       }
   }else if(modeChosen === 'two-players' || mode === 'two-players'){
       if (isInfoShown === false) {
-      isInfoShown = true;
-      infoContainer.innerHTML =  `
-      <h2>How the game works...</h2>
-      <div>
-        <p>You guys have to attack each other</p>
-        <p>Player 1 can use the keys 'a' and 's'</p>
-        <p>Player 2 can use the keys 'k' and 'l'</p>
-        <p>The first player who finishes the other's energy wins</p>
-        <p>Easy peasy lemon squeezy</p>
-      </div>
-      `;
-      show(infoContainer);
+        isInfoShown = true;
+        infoContainer.innerHTML =  `
+        <h2>How the game works...</h2>
+        <div>
+          <p>You guys have to attack each other</p>
+          <p>Player 1 can use the keys 'a' and 's'</p>
+          <p>Player 2 can use the keys 'k' and 'l'</p>
+          <p>The first player who finishes the other's energy wins</p>
+          <p>Easy peasy lemon squeezy</p>
+        </div>
+        `;
+        show(infoContainer);
       }else{
-      isInfoShown = false;
-      hide(infoContainer);
+        isInfoShown = false;
+        hide(infoContainer);
       }
   }
 }
@@ -264,10 +256,14 @@ function monsterAttack(){
 }
 
 //interval section for the monster attacks--------------------
+// the monster is gonna attack with different speeds and different strenght
+// exactly how it would happen in a real fight
 let timeFrame;
 let frameCount = 0;
 let speed = getMonsterSpeedValue(monster);
 
+// this function is a loop that calls the monsterAttack function randomly in a precise range 
+// of time depending on the monster's speed
 function startMonsterAttack(){
     timeFrame = window.requestAnimationFrame(startMonsterAttack);
    if(frameCount < speed/10){
@@ -306,7 +302,7 @@ function fight(){
 }
 
 // a function to check the game status and execute the appropriate actions
-
+// this is the engine of the game
 let helps = 0;
 
 function gameCheck(){
@@ -353,14 +349,14 @@ function lastChance(){
   
   setTimeout(function(){
     explaination.innerHTML = `<h2>You'll get ${Number} life points</h2>`
-  }, 4000)
+  }, 5000)
   
   setTimeout(function(){
         hide(formContainer);
         hide(questionForm);
         warrior.health += Number;
         countDown();
-  }, 6000)
+  }, 7000)
   lastChanceNumber++;
 }
 
@@ -408,13 +404,13 @@ function getStrength() {
       setTimeout(function() {
         explaination.innerHTML = `
           <h2>...but if you fail to answer correctly at least 2 of them</h2>`;
-      }, 1000);
+      }, 2000);
 
       setTimeout(function() {
         explaination.innerHTML = `
           <h2>...You'll have to continue as it is...</h2>`;
         hasBeenExplained = true;
-      }, 2000);
+      }, 4000);
     } else {
       questionContainer.innerHTML = "";
       explaination.innerHTML = `
@@ -425,7 +421,7 @@ function getStrength() {
       explaination.innerHTML = '';
       questionContainer.innerHTML = questionsArray[questionsAskedNum].question;
       show(questionForm);
-    }, 3000);
+    }, 6000);
   }
 }
 
@@ -436,8 +432,6 @@ function getStrength() {
 let questionsArray = getQuestionsArray();
 let questionsAskedNum = 0;
 let wrongAnswerCounter = 0;
-
-
 let isGetStrengthDisabled = false;
 let hasFailedQuestions = false;
 let hasBeenExplained = false;
