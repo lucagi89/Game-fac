@@ -15,8 +15,9 @@ let modeChosen = '';
 
 
 
+document.getElementById('start-game-btn').addEventListener('click', startGame);
 
-// listens for the mode chosen by the player
+
 modeOptionContainer.addEventListener("click", function(e){
     document.querySelectorAll('.selected').forEach(selection => {
         selection.classList.remove('selected');
@@ -69,7 +70,7 @@ function lose(){
 }
 
 // function to initialize the game
-document.getElementById('start-game-btn').addEventListener('click', startGame);
+// document.getElementById('start-game-btn').addEventListener('click', startGame);
 
 function startGame(){
   hide(document.getElementById('start-game'));
@@ -79,7 +80,14 @@ function startGame(){
     countDown();
     modifyBlackAndWhite();
   } else if(modeChosen === 'two-players') {
-    initializeChoice();
+    if ('keyboard' in navigator && navigator.keyboard) {
+      initializeChoice();
+    } else {
+      show(formContainer);
+      explaination.innerHTML= `
+      <h2>Sorry, But "2 Players Mode" is only available for Computers and Laptops</h2>`
+      setTimeout(location.reload(), 4000)
+    }
   }else{
     alert('Please choose a player mode');
     location.reload()

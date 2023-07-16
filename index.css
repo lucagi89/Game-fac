@@ -54,6 +54,7 @@ h2{
 
 /* player 1 player 2 mode */
 .mode-option-container{
+    margin: 0 auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -153,7 +154,7 @@ h2{
     width: 400px;
     height: 500px;
     border-radius: 20px;
-    font-size: 1.5rem;
+    font-size: 1rem;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -229,7 +230,7 @@ h2{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 600px;
+    height: 650px;
     width: 90%;
     min-width: 350px;
 }
@@ -259,7 +260,8 @@ h2{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1rem;
+    padding: 0 10px;
 }
 .answers{
     display: flex;
