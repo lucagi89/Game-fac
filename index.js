@@ -83,11 +83,8 @@ function startGame(){
     if ('keyboard' in navigator && navigator.keyboard) {
       initializeChoice();
     } else {
-      show(formContainer);
-      questionContainer.innerHTML = "";
-      explaination.innerHTML= `
-      <h2>Sorry, But "2 Players Mode" is only available for Computers and Laptops</h2>`
-      setTimeout(function(){location.reload()}, 5000)
+      alert('Sorry, But "2 Players Mode" is only available for Computers and Laptops');
+      location.reload();
     }
   }else{
     alert('Please choose a player mode');
