@@ -22,7 +22,7 @@ const fighters = {
         health: 100,
         attack: [5, 13], // [min, max
         defense: 2,
-        speed: [700, 1300],
+        speed: [700, 1100],
         sounds: ['./sounds/troll/troll.wav',
                 './sounds/troll/troll dead.wav',
                 ]       
@@ -33,7 +33,7 @@ const fighters = {
         health: 100,
         attack: [7, 15], // [min, max
         defense: 4,
-        speed: [600, 1100],
+        speed: [600, 1000],
         sounds: ['./sounds/vampire/vampire.mp3',
                 './sounds/vampire/vampire dead.wav',    
                 ]
@@ -44,7 +44,7 @@ const fighters = {
         health: 100,
         attack: [8, 17], // [min, max
         defense: 6,
-        speed: [500, 1000],
+        speed: [500, 900],
         sounds: ['./sounds/devil/devil.wav',
                 './sounds/devil/devil dead.wav',
                 ]
