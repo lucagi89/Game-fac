@@ -87,7 +87,7 @@ function startGame(){
       questionContainer.innerHTML = "";
       explaination.innerHTML= `
       <h2>Sorry, But "2 Players Mode" is only available for Computers and Laptops</h2>`
-      setTimeout(location.reload(), 5000)
+      setTimeout(function(){location.reload()}, 5000)
     }
   }else{
     alert('Please choose a player mode');
