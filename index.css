@@ -202,7 +202,6 @@ h2{
 }
 
 .fight-btn{
-    display:none;
     position: fixed;
     bottom: 50px;
     left: 50%;
