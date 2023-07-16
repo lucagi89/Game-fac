@@ -32,9 +32,7 @@ const winSound = new Audio('./sounds/win.mp3');
 
 // when player wins
 function win(winner){
-  if(!fightBtn.classList.contains('hidden')){
-    fightBtn.classList.add('hidden');
-    }
+  fightBtn.style.display = 'none';
   startStopGame();
   if(isMusicClicked){
     music.pause();
@@ -56,9 +54,8 @@ function win(winner){
 }
 // when player loses
 function lose(){
-  if(!fightBtn.classList.contains('hidden')){
-    fightBtn.classList.add('hidden');
-  }
+  fightBtn.style.display = 'none';
+  
   startStopGame();
   if(isMusicClicked){
     music.pause();
