@@ -21,7 +21,7 @@ const fighters = {
         image: './images/troll.png',
         health: 100,
         attack: [5, 13], // [min, max
-        defense: 2,
+        defense: 5,
         speed: [700, 1100],
         sounds: ['./sounds/troll/troll.wav',
                 './sounds/troll/troll dead.wav',
@@ -31,8 +31,8 @@ const fighters = {
         name: "Vampire",
         image: './images/vampire.png',
         health: 100,
-        attack: [7, 15], // [min, max
-        defense: 4,
+        attack: [8, 15], // [min, max
+        defense: 5,
         speed: [600, 1000],
         sounds: ['./sounds/vampire/vampire.mp3',
                 './sounds/vampire/vampire dead.wav',    
@@ -42,7 +42,7 @@ const fighters = {
         name: "Devil",
         image: './images/devil.png',
         health: 100,
-        attack: [8, 17], // [min, max
+        attack: [12, 17], // [min, max
         defense: 6,
         speed: [500, 900],
         sounds: ['./sounds/devil/devil.wav',
@@ -53,7 +53,7 @@ const fighters = {
         name: "Dragon",
         image: './images/dragon.png',
         health: 100,
-        attack: [10, 20], // [min, max
+        attack: [12, 20], // [min, max
         defense: 8,
         speed: [400, 800],
         sounds: ['./sounds/dragon/dragon.mp3',
@@ -64,7 +64,7 @@ const fighters = {
         name: "Death",
         image: './images/death.png',
         health: 100,
-        attack: [15, 25], // [min, max
+        attack: [17, 25], // [min, max
         defense: 10,
         speed: [200, 600],
         sounds: ['./sounds/death/death demon.mp3']
