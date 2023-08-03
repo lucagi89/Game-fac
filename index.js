@@ -45,7 +45,7 @@ function win(winner){
 
 
   }else if (modeChosen==='two-players'){
-      if(!fightBtn.classList.contains('hidden')){
+      if(!fightBtn.classList.includes('hidden')){
           hide(fightBtn);}
       document.getElementById("fight-container").innerHTML = `<h1 class='won'>${winner} wins!</h1>`
       setTimeout(function(){location.reload();}, 9000);
